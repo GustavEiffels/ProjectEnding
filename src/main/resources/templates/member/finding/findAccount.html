@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Find My Email and Id</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-9 col-lg-7">
+                <div class="login-wrap p-4 p-md-6">
+                    <div class="d-flex">
+                        <h3 class="mb-4">Find My Email and Id </h3>
+                    </div>
+                    <form th:action="@{/member/finding/result/emailAndId}" method="post">
+                        <span>Please Input Your NickName</span><br/>
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">NickName</span>
+                            <input class="form-control" name="nick" id="nick">
+                        </div>
+                        <span class="mb-4" style="color: red" th:text="${exceptionMessage}"></span>
+                        <!--/*@thymesVar id="valid_nick" type=""*/-->
+                        <span class="mb-4" style="color: red" th:text="${valid_nick}"></span>
+                        <div class="input-group mb-3">
+                            <button class="btn btn-primary rounded btn-authentication" type="submit">Find</button>
+                        </div>
+
+                    </form>
+                    <div class="input-group mb-3">
+                        <button class="btn btn-primary rounded btn-authentication" type="button"
+                                onclick="location.href='/member/finding'">Go to Find Page</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/popper.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+</html>
