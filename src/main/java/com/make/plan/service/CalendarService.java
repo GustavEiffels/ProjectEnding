@@ -57,5 +57,5 @@ public interface CalendarService {
         return dto;
     }
 
-    List<CalendarDTO> getcurrentplan(User code);
+    List<CalendarDTO> getcurrentplan(User code, String currentDate);
 }

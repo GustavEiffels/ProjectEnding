@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface PlanRepository extends JpaRepository<Plan, Long> {
-    @Query(value = "select * from Plan where code= :code and start BETWEEN DATE_ADD(now(), INTERVAL -1 MONTH) And DATE_ADD(now(), INTERVAL 1 MONTH)", nativeQuery = true)
-    List<Plan> getUserPlan(@Param("code") User code);
+    @Query(value = "select * from Plan where code= :code and start BETWEEN DATE_ADD(:currentDate, INTERVAL -1 MONTH) And DATE_ADD(:currentDate, INTERVAL 1 MONTH)", nativeQuery = true)
+    List<Plan> getUserPlan(@Param("code") User code, @Param("currentDate")String currentDate);
 
 }

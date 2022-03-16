@@ -66,9 +66,9 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     @Override
-    public List<CalendarDTO> getcurrentplan(User code)
+    public List<CalendarDTO> getcurrentplan(User code, String currtentDate)
     {
-        List<Plan> plans = planRepository.findAll();
+        List<Plan> plans = planRepository.getUserPlan(code, currtentDate);
         log.info("here is CalendarServiceImpl. plans: " + plans);
         return plans.stream().map(plan -> entityToDTO(plan)).collect(Collectors.toList());
     }

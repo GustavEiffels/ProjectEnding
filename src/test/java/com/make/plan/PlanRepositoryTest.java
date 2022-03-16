@@ -32,23 +32,23 @@ public class PlanRepositoryTest {
             int pHour = 10 + r.nextInt(12);
             int pMinute = 10 + r.nextInt(50);
             String textColor = "gray";
-            String start = "2022-03-" + pDate + "T" + pHour + ":" + pMinute;
-            String end = "2022-03-" + (pDate + priority) + "T" + pHour + ":" + pMinute;
+            String start = "2022-05-" + pDate + "T" + pHour + ":" + pMinute;
+            String end = "2022-05-" + (pDate + priority) + "T" + pHour + ":" + pMinute;
             String backgroundColor = colors[priority - 1];
             String borderColor = colors[priority];
             if (allDay == 0) {
-                end = "2022-03-" + pDate + "T" + (pHour + 1) + ":" + pMinute;;
+                end = "2022-05-" + pDate + "T" + (pHour + 1) + ":" + pMinute;;
             }
             if (priority > 2) {
                 textColor = "white";
             }
             User code = User.builder()
-                    .code(2L)
+                    .code(1L)
                     .build();
             System.out.println(code);
 
             Plan plan = Plan.builder()
-                    .title("Title_" + i)
+                    .title("Title_딸기" + i)
                     .description("Description_" + i)
                     .location("Location_" + i)
                     .priority(priority)
@@ -79,16 +79,16 @@ public class PlanRepositoryTest {
     private CalendarService calendarService;
 
 
-    @Test
-    public void test(){
-        User code =User.builder()
-                .code(2L)
-                .build();
-        planRepository.getUserPlan(code);
+//    @Test
+//    public void test(){
+//        User code =User.builder()
+//                .code(2L)
+//                .build();
+//        planRepository.getUserPlan(code);
+//
 
 
 
 
-
-    }
+//    }
 }

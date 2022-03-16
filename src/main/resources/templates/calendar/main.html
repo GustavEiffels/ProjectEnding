@@ -109,19 +109,55 @@
                 calendar.prev();
                 console.log(calendar.getDate());
                 let dateObj = calendar.getDate();
+                displayedDate = dateObj;
+                console.log(displayedDate);
                 // calendar title
                 $('#displayedDate').text(getTitle(dateObj));
+
+                $.ajax({
+                    url: '/calendar/getlist/' + displayedDate.getFullYear() + '/' + displayedDate.getMonth(),
+                    type: "GET",
+                    error: function (result) {
+                        console.log("fail: ", result)
+                    },
+                    success: function (result) {
+                        console.log("result:" + result);
+                        for (var i in result) {
+                            calendar.addEvent(result[i]);
+                        }
+
+                    }
+                })
             });
             $('.next').on('click', function () {
                 calendar.next();
                 console.log(calendar.getDate());
                 let dateObj = calendar.getDate();
+                displayedDate = dateObj;
+                console.log(displayedDate);
                 $('#displayedDate').text(getTitle(dateObj));
+
+                $.ajax({
+                    url: '/calendar/getlist/' + displayedDate.getFullYear() + '/' + displayedDate.getMonth(),
+                    type: "GET",
+                    error: function (result) {
+                        console.log("fail: ", result)
+                    },
+                    success: function (result) {
+                        console.log("result:" + result);
+                        for (var i in result) {
+                            calendar.addEvent(result[i]);
+                        }
+
+                    }
+                })
             });
             $('.today').on('click', function () {
                 calendar.today();
                 console.log(calendar.getDate());
                 let dateObj = calendar.getDate();
+                displayedDate = dateObj;
+                console.log(displayedDate);
                 $('#displayedDate').text(getTitle(dateObj));
             });
             $('.gotoDate').on('click', function() {
@@ -132,7 +168,25 @@
                 console.log("type: ", typeof(gotoDate));//
                 calendar.gotoDate(gotoDate);
                 $('#displayedDate').text(getTitle(gotoDate));
+
+                $.ajax({
+                    url: '/calendar/getlist/' + displayedDate.getFullYear() + '/' + displayedDate.getMonth(),
+                    type: "GET",
+                    error: function (result) {
+                        console.log("fail: ", result)
+                    },
+                    success: function (result) {
+                        console.log("result:" + result);
+                        for (var i in result) {
+                            calendar.addEvent(result[i]);
+                        }
+
+                    }
+                })
             });
+
+
+
             $.getJSON("/calendar/list",function (arr) {
                 for (var i in arr) {
                     calendar.addEvent(arr[i]);
@@ -141,6 +195,7 @@
             let today = new Date();
             let planModal = $(".planModal");
             let inputTitle = $('input[name="title"]');
+            let displayedDate = '';
             let inputDescription = $('textarea[id="description"]');
             let inputLocation = $('input[name="location"]');
             var priority = 1;
@@ -169,6 +224,7 @@
                 }
                 return str;
             }
+
 
             var calendarEl = document.getElementById('calendar');
 

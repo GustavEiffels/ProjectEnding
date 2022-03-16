@@ -24,14 +24,30 @@ public class CalendarController {
     private final CalendarService calendarService;
 
 
-    @GetMapping("/list")
-    public ResponseEntity<List<CalendarDTO>> getlist(HttpSession session) {
+    @GetMapping("/getlist/{year}/{month}")
+    public ResponseEntity<List<CalendarDTO>> getlist(HttpSession session, @PathVariable Integer year, @PathVariable Integer month) {
         User code = User.builder()
                 .code((Long)session.getAttribute("code"))
                 .build();
 
+        String currentDate = year.toString() + month.toString();
 
-        List<CalendarDTO> plans = calendarService.getcurrentplan(code);
+        List<CalendarDTO> plans = calendarService.getcurrentplan(code, currentDate);
+
+
+        return new ResponseEntity<List<CalendarDTO>>(plans, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/list")
+    public ResponseEntity<List<CalendarDTO>> getlistInit(HttpSession session) {
+        User code = User.builder()
+                .code((Long)session.getAttribute("code"))
+                .build();
+
+        LocalDate currentDate = LocalDate.now();
+
+        List<CalendarDTO> plans = calendarService.getcurrentplan(code, currentDate.toString());
 
 
         return new ResponseEntity<List<CalendarDTO>>(plans, HttpStatus.OK);
