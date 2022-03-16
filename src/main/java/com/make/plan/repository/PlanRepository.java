@@ -1,8 +1,17 @@
 package com.make.plan.repository;
 
+import com.make.plan.dto.CalendarDTO;
 import com.make.plan.entity.Plan;
+import com.make.plan.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+
+import java.util.List;
 
 public interface PlanRepository extends JpaRepository<Plan, Long> {
-    //이 곳에 추후 필요한 기능을 구현할 수 있는 쿼리문을 작성하고 메소드를 선언
+    @Query(value = "select * from Plan where code= :code and start BETWEEN DATE_ADD(now(), INTERVAL -1 MONTH) And DATE_ADD(now(), INTERVAL 1 MONTH)", nativeQuery = true)
+    List<Plan> getUserPlan(@Param("code") User code);
+
 }

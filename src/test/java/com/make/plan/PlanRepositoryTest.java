@@ -1,12 +1,16 @@
 package com.make.plan;
 
+import com.make.plan.dto.CalendarDTO;
 import com.make.plan.entity.Plan;
+import com.make.plan.entity.User;
 import com.make.plan.repository.PlanRepository;
+import com.make.plan.service.CalendarService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
 
@@ -16,7 +20,7 @@ public class PlanRepositoryTest {
     @Autowired
     private PlanRepository planRepository;
 
-    //@Test
+    @Test
     public void insertPlans() {
         Random r = new Random();
         String[] colors = {"#dcced3", "#d1bec7", "#c7b0bc", "#876479", "#674559", "#4c3041"};
@@ -38,6 +42,11 @@ public class PlanRepositoryTest {
             if (priority > 2) {
                 textColor = "white";
             }
+            User code = User.builder()
+                    .code(2L)
+                    .build();
+            System.out.println(code);
+
             Plan plan = Plan.builder()
                     .title("Title_" + i)
                     .description("Description_" + i)
@@ -49,12 +58,13 @@ public class PlanRepositoryTest {
                     .backgroundColor(backgroundColor)
                     .borderColor(borderColor)
                     .textColor(textColor)
+                    .user(code)
                     .build();
             planRepository.save(plan);
         });
     }
 
-    @Test
+//    @Test
     public void LocalDateTimeParsingTest() {
         String date = "2022-03-01T00:00";
         System.out.println("date: " + date);
@@ -62,6 +72,23 @@ public class PlanRepositoryTest {
         System.out.println("first: " + first);
         date = first.toString();
         System.out.println("date: " + date);
+
+    }
+
+    @Autowired
+    private CalendarService calendarService;
+
+
+    @Test
+    public void test(){
+        User code =User.builder()
+                .code(2L)
+                .build();
+        planRepository.getUserPlan(code);
+
+
+
+
 
     }
 }

@@ -2,7 +2,9 @@ package com.make.plan.service;
 
 import com.make.plan.dto.CalendarDTO;
 import com.make.plan.entity.Plan;
+import com.make.plan.entity.User;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -55,4 +57,5 @@ public interface CalendarService {
         return dto;
     }
 
+    List<CalendarDTO> getcurrentplan(User code);
 }

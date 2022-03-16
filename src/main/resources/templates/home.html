@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"   xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Welcome to our PLANNER</title>
@@ -23,21 +23,25 @@
                     <div class="d-flex">
                         <h3 class="mb-4">Sign In</h3>
                     </div>
-                    <form action="/member/login" method="post" modelAttribute="dto" class="login-form">
+                    <form th:action="@{/member/login}" method="post" modelAttribute="dto" class="login-form">
                         <div class="form-group">
                             <div class="icon d-flex align-items-center justify-content-center">
                                 <span class="fa fa-user"></span>
                             </div>
-                            <input type="text" id="accout" class="form-control rounded-left" placeholder="Please enter your ID or email here." required>
-                            <span th:text="${accountError}"></span>
+                            <input type="text" id="account" name="account" class="form-control rounded-left" placeholder="Please enter your ID or email here." required>
+                            <div>
+                                <span style="color: red" th:text="${accountError}"></span>
+                            </div>
                         </div>
                         <div class="form-group">
                             <div class="icon d-flex align-items-center justify-content-center">
                                 <span class="fa fa-lock"></span>
                             </div>
-                            <input type="password" class="form-control rounded-left" placeholder="Password" required>
-                            <span th:text="${valid_pw}"></span>
-                            <span th:text="${passwordError}"></span>
+                            <input type="password" id="pw" name="pw" class="form-control rounded-left" placeholder="Password" required>
+                            <div>
+                                <span style="color: red" th:text="${valid_pw}"></span>
+                                <span style="color: red" th:text="${passwordError}"></span>
+                            </div>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary rounded submit" style="width:100%;height:49px;">Login</button>

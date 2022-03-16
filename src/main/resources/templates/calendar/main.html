@@ -7,6 +7,7 @@
     <th:block th:fragment="content">
 
         <h1>FullCalendar CRUD</h1>
+        <span th:text="${session.nick}"></span>님 안녕하세요!<br>
 
         <link href='/css/main.css' rel='stylesheet'/>
         <script src='/js/main.js'></script>
@@ -108,6 +109,7 @@
                 calendar.prev();
                 console.log(calendar.getDate());
                 let dateObj = calendar.getDate();
+                // calendar title
                 $('#displayedDate').text(getTitle(dateObj));
             });
             $('.next').on('click', function () {
@@ -317,3 +319,4 @@
 
     </th:block>
 </th:block>
+

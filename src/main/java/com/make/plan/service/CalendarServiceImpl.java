@@ -2,11 +2,13 @@ package com.make.plan.service;
 
 import com.make.plan.dto.CalendarDTO;
 import com.make.plan.entity.Plan;
+import com.make.plan.entity.User;
 import com.make.plan.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -61,5 +63,13 @@ public class CalendarServiceImpl implements CalendarService {
     public Long remove(Long id) {
         planRepository.deleteById(id);
         return id;
+    }
+
+    @Override
+    public List<CalendarDTO> getcurrentplan(User code)
+    {
+        List<Plan> plans = planRepository.findAll();
+        log.info("here is CalendarServiceImpl. plans: " + plans);
+        return plans.stream().map(plan -> entityToDTO(plan)).collect(Collectors.toList());
     }
 }
