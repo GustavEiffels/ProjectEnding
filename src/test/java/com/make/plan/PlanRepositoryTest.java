@@ -9,9 +9,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @SpringBootTest
@@ -20,7 +23,7 @@ public class PlanRepositoryTest {
     @Autowired
     private PlanRepository planRepository;
 
-    @Test
+//    @Test
     public void insertPlans() {
         Random r = new Random();
         String[] colors = {"#dcced3", "#d1bec7", "#c7b0bc", "#876479", "#674559", "#4c3041"};
@@ -32,23 +35,23 @@ public class PlanRepositoryTest {
             int pHour = 10 + r.nextInt(12);
             int pMinute = 10 + r.nextInt(50);
             String textColor = "gray";
-            String start = "2022-05-" + pDate + "T" + pHour + ":" + pMinute;
-            String end = "2022-05-" + (pDate + priority) + "T" + pHour + ":" + pMinute;
+            String start = "2022-01-" + pDate + "T" + pHour + ":" + pMinute;
+            String end = "2022-01-" + (pDate + priority) + "T" + pHour + ":" + pMinute;
             String backgroundColor = colors[priority - 1];
             String borderColor = colors[priority];
             if (allDay == 0) {
-                end = "2022-05-" + pDate + "T" + (pHour + 1) + ":" + pMinute;;
+                end = "2022-01-" + pDate + "T" + (pHour + 1) + ":" + pMinute;;
             }
             if (priority > 2) {
                 textColor = "white";
             }
             User code = User.builder()
-                    .code(1L)
+                    .code(2L)
                     .build();
             System.out.println(code);
 
             Plan plan = Plan.builder()
-                    .title("Title_딸기" + i)
+                    .title("Title_yayababa" + i)
                     .description("Description_" + i)
                     .location("Location_" + i)
                     .priority(priority)
@@ -80,15 +83,20 @@ public class PlanRepositoryTest {
 
 
 //    @Test
-//    public void test(){
+//    public List<CalendarDTO> test(){
 //        User code =User.builder()
 //                .code(2L)
 //                .build();
-//        planRepository.getUserPlan(code);
 //
-
-
-
-
+//        String currentDate = "2022-03";
+//
+//        List<Plan> plans = planRepository.getUserPlan(code, currentDate);
+//
+//
+//        return plans.stream().map(plan -> calendarService.entityToDTO(plan)).collect(Collectors.toList());
+//
 //    }
+
+
+
 }
