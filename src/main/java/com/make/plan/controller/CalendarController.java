@@ -32,6 +32,7 @@ public class CalendarController {
 
         month = month+1;
 
+        // currentDate update
         String currentDate = year.toString() + ( (month / 10 > 0) ? "-" + month : ("-0" + month) ) + "-01%";
         log.info(currentDate);
 
