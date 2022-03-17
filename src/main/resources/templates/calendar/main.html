@@ -105,12 +105,34 @@
                 var year = dateObj.getFullYear().toString();
                 return monthNameLong + " " + year;
             }
-            $('.prev').on('click', function () {
-                calendar.prev();
-                console.log(calendar.getDate());
+            $('.prev, .next, .today, .gotoDate').on('click', function () {
+
+                var $this = $(this);
+
+                if($this.hasClass('prev')){
+                    calendar.prev();
+                    console.log("Click prev");
+                    console.log($this);
+                } else if($this.hasClass('next')){
+                    calendar.next();
+                    console.log("Click next");
+                    console.log($this);
+                }else if($this.hasClass('today')){
+                    calendar.today();
+                    console.log("Click today");
+                    console.log($this);
+                }else if($this.hasClass('gotoDate')){
+                    var gotoDate = $('input[name="gotoDate"]').val();
+                    // console.log("gotoDate 출력 : " + gotoDate)
+                    gotoDate = new Date(gotoDate);
+                    // console.log("gotoDate를 Date 로 변경 후 출력 : " + gotoDate)
+                    calendar.gotoDate(gotoDate);
+                }
+
+                // console.log(calendar.getDate());
                 let dateObj = calendar.getDate();
                 displayedDate = dateObj;
-                console.log(displayedDate);
+                // console.log(displayedDate);
                 // calendar title
                 $('#displayedDate').text(getTitle(dateObj));
 
@@ -129,61 +151,61 @@
                     }
                 })
             });
-            $('.next').on('click', function () {
-                calendar.next();
-                console.log(calendar.getDate());
-                let dateObj = calendar.getDate();
-                displayedDate = dateObj;
-                console.log(displayedDate);
-                $('#displayedDate').text(getTitle(dateObj));
-
-                $.ajax({
-                    url: '/calendar/getlist/' + displayedDate.getFullYear() + '/' + displayedDate.getMonth(),
-                    type: "GET",
-                    error: function (result) {
-                        console.log("fail: ", result)
-                    },
-                    success: function (result) {
-                        console.log("result:" + result);
-                        for (var i in result) {
-                            calendar.addEvent(result[i]);
-                        }
-
-                    }
-                })
-            });
-            $('.today').on('click', function () {
-                calendar.today();
-                console.log(calendar.getDate());
-                let dateObj = calendar.getDate();
-                displayedDate = dateObj;
-                console.log(displayedDate);
-                $('#displayedDate').text(getTitle(dateObj));
-            });
-            $('.gotoDate').on('click', function() {
-                var gotoDate = $('input[name="gotoDate"]');
-                console.log("type: ", typeof(gotoDate.val()));//
-                gotoDate = gotoDate.val();
-                gotoDate = new Date(gotoDate);
-                console.log("type: ", typeof(gotoDate));//
-                calendar.gotoDate(gotoDate);
-                $('#displayedDate').text(getTitle(gotoDate));
-
-                $.ajax({
-                    url: '/calendar/getlist/' + displayedDate.getFullYear() + '/' + displayedDate.getMonth(),
-                    type: "GET",
-                    error: function (result) {
-                        console.log("fail: ", result)
-                    },
-                    success: function (result) {
-                        console.log("result:" + result);
-                        for (var i in result) {
-                            calendar.addEvent(result[i]);
-                        }
-
-                    }
-                })
-            });
+            // $('.next').on('click', function () {
+            //     // calendar.next();
+            //     console.log(calendar.getDate());
+            //     let dateObj = calendar.getDate();
+            //     displayedDate = dateObj;
+            //     console.log(displayedDate);
+            //     $('#displayedDate').text(getTitle(dateObj));
+            //
+            //     $.ajax({
+            //         url: '/calendar/getlist/' + displayedDate.getFullYear() + '/' + displayedDate.getMonth(),
+            //         type: "GET",
+            //         error: function (result) {
+            //             console.log("fail: ", result)
+            //         },
+            //         success: function (result) {
+            //             console.log("result:" + result);
+            //             for (var i in result) {
+            //                 calendar.addEvent(result[i]);
+            //             }
+            //
+            //         }
+            //     })
+            // });
+            // $('.today').on('click', function () {
+            //     // calendar.today();
+            //     console.log(calendar.getDate());
+            //     let dateObj = calendar.getDate();
+            //     displayedDate = dateObj;
+            //     console.log(displayedDate);
+            //     $('#displayedDate').text(getTitle(dateObj));
+            // });
+            // $('.gotoDate').on('click', function() {
+            //     var gotoDate = $('input[name="gotoDate"]');
+            //     console.log("type: ", typeof(gotoDate.val()));//
+            //     gotoDate = gotoDate.val();
+            //     gotoDate = new Date(gotoDate);
+            //     console.log("type: ", typeof(gotoDate));//
+            //     calendar.gotoDate(gotoDate);
+            //     $('#displayedDate').text(getTitle(gotoDate));
+            //
+            //     $.ajax({
+            //         url: '/calendar/getlist/' + displayedDate.getFullYear() + '/' + displayedDate.getMonth(),
+            //         type: "GET",
+            //         error: function (result) {
+            //             console.log("fail: ", result)
+            //         },
+            //         success: function (result) {
+            //             console.log("result:" + result);
+            //             for (var i in result) {
+            //                 calendar.addEvent(result[i]);
+            //             }
+            //
+            //         }
+            //     })
+            // });
 
 
 
