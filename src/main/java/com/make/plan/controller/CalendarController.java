@@ -62,9 +62,14 @@ public class CalendarController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<CalendarDTO> registerPlan(@RequestBody CalendarDTO calendarDTO) {
+    public ResponseEntity<CalendarDTO> registerPlan(@RequestBody CalendarDTO calendarDTO, HttpSession session) {
         log.info("here is CalendarController. calendarDTO: " + calendarDTO);
+        Long code = (Long)session.getAttribute("code");
+
+        calendarDTO.setCode((Long)session.getAttribute("code"));
+
         CalendarDTO result = calendarService.register(calendarDTO);
+
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

@@ -23,6 +23,11 @@ public interface CalendarService {
         int allDay = calendarDTO.isAllDay() ? 1 : 0;
         int p = calendarDTO.getPriority();
         String textColor = p > 2 ? "white" : "gray";
+
+        User user = User.builder()
+                .code(calendarDTO.getCode())
+                .build();
+
         Plan plan = Plan.builder()
                 .id(calendarDTO.getId())
                 .title(calendarDTO.getTitle())
@@ -35,6 +40,7 @@ public interface CalendarService {
                 .backgroundColor(colors[p - 1])
                 .borderColor(colors[p])
                 .textColor(textColor)
+                .user(user)
                 .build();
         return plan;
     }
