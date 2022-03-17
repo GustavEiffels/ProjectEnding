@@ -30,10 +30,11 @@ public class CalendarController {
                 .code((Long)session.getAttribute("code"))
                 .build();
 
-        String currentDate = year.toString() + month.toString();
+        month = month+1;
+
+        String currentDate = year.toString() + ( (month / 10 > 0) ? "-" + month : ("-0" + month) ) + "-01%";
 
         List<CalendarDTO> plans = calendarService.getcurrentplan(code, currentDate);
-
 
         return new ResponseEntity<List<CalendarDTO>>(plans, HttpStatus.OK);
     }
