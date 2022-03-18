@@ -18,98 +18,91 @@
                     <div class="d-flex">
                         <h3 class="mb-4">Edit My Info</h3>
                     </div>
-                    <form th:action="@{/edit/editing/info}" method="post" >
+                    <form th:action="@{/edit/editing}" method="post" >
                         <div class="input-group mb-3">
-                            <span class="form-control-plaintext input-group-text col-3">email</span>
-                            <input class="form-control" name="email">
+                            <span class="form-control-plaintext input-group-text col-3" > Email </span>
+                            <span class="form-control-plaintext input-group-text col-10" th:text="${session.email}" ></span>
                         </div>
-                        <span style="color: red" th:text="${valid_email}"></span>
-                        <span style="color: red" th:text="${emailMessage}"></span>
-                        </br>
                         </br>
 
                         <div class="input-group mb-3">
-                            <span class="form-control-plaintext input-group-text col-3">ID</span>
-                            <input class="form-control" name="id">
+                            <span class="form-control-plaintext input-group-text col-3" > ID </span>
+                            <span class="form-control-plaintext input-group-text col-10" th:text="${session.id}" ></span>
                         </div>
-                        <span style="color: red" th:text="${valid_id}"></span>
-                        <span style="color: red" th:text="${idMessage}"></span>
-                        </br>
                         </br>
 
                         <div class="input-group mb-3">
-                            <span class="form-control-plaintext input-group-text col-3">별명</span>
-                            <input class="form-control" name="nick">
+                            <span class="form-control-plaintext input-group-text col-3" > Nick Name </span>
+                            <span class="form-control-plaintext input-group-text col-3" th:text="${session.nick}" ></span>
+                            <input class="form-control" name="nick" placeholder="Want to change nick!">
                         </div>
                         <div>
-                            <span style="color: red"  th:text="${valid_nick}"></span>
-                            <span style="color: red" th:text="${nickMessage}"></span>
+                            <span style="color: red" th:text="${nickErrorMessage}"></span>
+                            <span style="color: red" th:text="${nickValidError}"></span>
                         </div>
-                        </br>
-                        </br>
                         <div class="input-group mb-3">
                             <span class="form-control-plaintext input-group-text col-3">Password</span>
-                            <input class="form-control" name="pw">
+                            <input class="form-control" name="pw"  placeholder="Want to change" >
                         </div>
                         <div>
-                            <span style="color: red" th:text="${valid_pw}"></span>
+                            <span style="color: red" th:text="${pwValidError}"></span>
                         </div>
 
                         <div class="input-group mb-3">
-                            <span class="form-control-plaintext input-group-text col-3">Check PW</span>
-                            <input class="form-control" name="pwCheck">
+                            <span class="form-control-plaintext input-group-text col-3">Password Check</span>
+                            <input class="form-control" name="pwCheck" placeholder="Want to change">
                         </div>
                         <div>
-                            <span style="color: red" th:text="${pwMessage}"></span>
+                            <span style="color: red" th:text="${pwErrorMessage}"></span>
                         </div>
                         </br>
                         </br>
+                        <span class="mb-2">if you change, try it</span>
                         <div class="input-group mb-3">
                             <span class="form-control-plaintext input-group-text col-3">Gender</span>
-                            <input class="form-control" type="radio" name="gender" value="m"/> Male
-                            <input class="form-control" type="radio" name="gender" value="f"/> Female
-                        </div>
-                        <div>
-                            <span style="color: red" th:text="${valid_gender}"></span>
+                            <span class="form-control-plaintext input-group-text col-3" th:text="${session.gender}" ></span>
+                            <input class="form-control custom-radio" type="radio" name="gender" value="m"/> Male
+                            <input class="form-control custom-radio" type="radio" name="gender" value="f"/> Female
                         </div>
                         </br>
                         </br>
+                        <span class="mb-2">if you change, try it</span>
                         <div class="input-group mb-3">
                             <span class="form-control-plaintext input-group-text col-3">Birthday</span>
+                            <span class="form-control-plaintext input-group-text col-3" th:text="${session.birthday}" ></span>
                             <input type="date" class="form-control" name="birthday">
                         </div>
-                        <div>
-                            <span style="color: red" th:text="${valid_birthday}"></span>
-                        </div>
                         </br>
                         </br>
+                        <span class="mb-2">if you change, try it</span>
                         <div class="input-group mb-3">
                             <span class="form-control-plaintext input-group-text col-3">개인질문</span>
+                            <span class="form-control-plaintext input-group-text col-3" th:text="${session.context}" ></span>
                             <select class="form-control" name="context" id="context">
                                 <option value="1" selected>처음 키운 애완동물의 이름은?</option>
                                 <option value="2">태어난 동네의 이름은?</option>
                                 <option value="3">가장 좋아하는 과일은?</option>
                             </select>
                         </div>
-                        <div>
-                            <span style="color: red" th:text="${valid_context}"></span>
-                        </div>
+                        <span class="mb-2">if you change, try it</span>
                         <div class="input-group mb-3">
                             <span class="form-control-plaintext input-group-text col-3">답!</span>
+                            <span class="form-control-plaintext input-group-text col-3" th:text="${session.answer}" ></span>
                             <input class="form-control" name="answer">
                         </div>
                         <div>
-                            <span style="color: red" th:text="${valid_answer}"></span>
+                            <span style="color: red" th:text="${answerValidError}"></span>
+                            <span style="color: red" th:text="${errorMessage}"></span>
                         </div>
                         <br>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary rounded submit" style="width:100%;height:60px;">회원가입하기</button>
+                            <button type="submit" class="btn btn-primary rounded submit" style="width:100%;height:60px;">Finish</button>
                         </div>
 
                     </form>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary rounded submit" style="width:100%;height:60px;"
-                                onclick="location.href='/'">main 화면으로 </button>
+                                onclick="location.href='/edit/'">Back Page</button>
                     </div>
                 </div>
             </div>

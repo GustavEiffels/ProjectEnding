@@ -118,6 +118,9 @@ public interface UserRepository extends JpaRepository<User,Long>{
     int updateModate(@Param("modDate") LocalDateTime modDate, @Param("nick")String nick);
 
 
+
+    // 회원정보 수정 =====================================================================================================
+    // 비밀번호 까지 같이 바꿀 경우 -----------------------------------------------
     @Modifying
     @Transactional
     @Query(value = "update User set nick=:nickCh, pw=:pw, birthday=:birthday, gender=:gender where nick=:nick")
@@ -130,10 +133,12 @@ public interface UserRepository extends JpaRepository<User,Long>{
     @Modifying
     @Transactional
     @Query(value = "update User set nick=:nickCh, birthday=:birthday, gender=:gender where nick=:nick")
-    int byNickUpdateUserInfo(@Param("nick")String nick,
-                       @Param("nickCh")String nickCh,
-                       @Param("gender")String gender,
-                       @Param("birthday")LocalDate birthday);
+    int changeUserInfoExceptPw(@Param("nick")String nick,
+                               @Param("nickCh")String nickCh,
+                               @Param("gender")String gender,
+                               @Param("birthday")LocalDate birthday);
+    // 비밀번호 까지 같이 바꿀 경우 -----------------------------------------------
+    // 회원정보 수정 =====================================================================================================
 
     // nick name 을 입력받으면 code 를 리턴
     @Query(value = "select code from User where nick=:nick")
