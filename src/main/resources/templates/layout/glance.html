@@ -74,17 +74,23 @@
                     </div>
                 </li>
                 <li class="border-top my-3"></li>
-                <form action="/member/login" method="post" modelAttribute="dto" class="login-form">
+
+
+                <form th:action="@{/member/login}" method="post" modelAttribute="dto" class="login-form">
                     <div class="form-group">
                         <p>Sign in</p>
-                        <input type="text" id="accout" class="form-control rounded-left" placeholder="Enter ID or email here." required>
-                        <span th:text="${accountError}"></span>
+                        <input type="text" id="account" name="account" class="form-control rounded-left" placeholder="Enter ID or email here." required>
+                        <div>
+                            <span style="color: red" th:text="${accountError}"></span>
+                        </div>
                     </div>
                     <br>
                     <div class="form-group">
-                        <input type="password" class="form-control rounded-left" placeholder="Enter Password here." required>
-                        <span th:text="${valid_pw}"></span>
-                        <span th:text="${passwordError}"></span>
+                        <input type="password" id="pw" name="pw"  class="form-control rounded-left" placeholder="Enter Password here." required>
+                        <div>
+                            <span style="color: red" th:text="${valid_pw}"></span>
+                            <span style="color: red" th:text="${passwordError}"></span>
+                        </div>
                     </div>
                     <br>
                     <div class="form-group">
@@ -96,6 +102,8 @@
                         </div>
                     </div>
                 </form>
+
+
             </ul>
         </div>
 

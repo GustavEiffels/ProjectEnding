@@ -1,5 +1,9 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/style.css">
 
 <th:block th:fragment="setContent(content)">
 
@@ -96,10 +100,17 @@
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                             <li><a href="#" class="link-dark rounded">New...</a></li>
                             <li><a href="#" class="link-dark rounded">Profile</a></li>
-                            <li><a href="#" class="link-dark rounded">Settings</a></li>
-                            <li><a href="/" class="link-dark rounded">Sign out</a></li>
+                            <li><a href="/edit" class="link-dark rounded">Modify My Info</a></li>
                         </ul>
                     </div>
+                    <div>
+                        <form th:action="@{/member/logout}" method="post">
+                            <div class="input-group mb-2">
+                                <button class="btn btn-primary rounded submit" type="submit">SignOut</button>
+                            </div>
+                        </form>
+                    </div>
+
                 </li>
             </ul>
         </div>

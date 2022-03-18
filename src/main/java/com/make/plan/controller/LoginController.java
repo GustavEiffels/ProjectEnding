@@ -94,4 +94,11 @@ public class LoginController {
         }
         return url;
     }
+
+    @PostMapping("/member/logout")
+    public String logout(HttpSession session){
+        String userNick = (String)session.getAttribute("nick");
+        session.invalidate();
+        return "redirect:/";
+    }
 }
