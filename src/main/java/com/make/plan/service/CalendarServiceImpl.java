@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +24,7 @@ public class CalendarServiceImpl implements CalendarService {
     public List<CalendarDTO> getAll() {
         List<Plan> plans = planRepository.findAll();
         log.info("here is CalendarServiceImpl. plans: " + plans);
-        return plans.stream().map(plan -> entityToDTO(plan)).collect(Collectors.toList());
+        return plans.stream().map(plan -> entityToDTO(plan, )).collect(Collectors.toList());
     }
 
     @Override
@@ -34,7 +35,7 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     @Override
-    public CalendarDTO modify(CalendarDTO calendarDTO) {
+    public CalendarDTO modify(CalendarDTO calendarDTO, User user) {
         Optional<Plan> result = planRepository.findById(calendarDTO.getId());
         Plan plan;
         Plan data = dtoToEntity(calendarDTO);

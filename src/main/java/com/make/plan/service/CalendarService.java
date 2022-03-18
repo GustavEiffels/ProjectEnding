@@ -4,6 +4,7 @@ import com.make.plan.dto.CalendarDTO;
 import com.make.plan.entity.Plan;
 import com.make.plan.entity.User;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,6 +23,10 @@ public interface CalendarService {
         String[] colors = {"#dcced3", "#d1bec7", "#c7b0bc", "#876479", "#674559", "#4c3041"};
         int allDay = calendarDTO.isAllDay() ? 1 : 0;
         int p = calendarDTO.getPriority();
+        User user  = User.builder()
+                .code(calendarDTO.getCode())
+                .build();
+
         String textColor = p > 2 ? "white" : "gray";
         Plan plan = Plan.builder()
                 .id(calendarDTO.getId())
@@ -35,11 +40,12 @@ public interface CalendarService {
                 .backgroundColor(colors[p - 1])
                 .borderColor(colors[p])
                 .textColor(textColor)
+                .user(user)
                 .build();
         return plan;
     }
 
-    default CalendarDTO entityToDTO(Plan plan) {
+    default CalendarDTO entityToDTO(Plan plan, User user) {
         boolean allDay = plan.getAllDay() == 0 ? false : true;
         CalendarDTO dto = CalendarDTO.builder()
                 .id(plan.getId())
@@ -53,6 +59,7 @@ public interface CalendarService {
                 .backgroundColor(plan.getBackgroundColor())
                 .borderColor(plan.getBorderColor())
                 .textColor(plan.getTextColor())
+                .code(user.getCode())
                 .build();
         return dto;
     }

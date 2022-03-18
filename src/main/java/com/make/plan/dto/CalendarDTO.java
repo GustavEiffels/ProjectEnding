@@ -25,4 +25,5 @@ public class CalendarDTO {
     private String textColor;
     private LocalDateTime regDate;
     private LocalDateTime modDate;
+    private Long code;
 }

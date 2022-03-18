@@ -56,6 +56,7 @@ public class CalendarController {
     @PostMapping("/register")
     public ResponseEntity<CalendarDTO> registerPlan(@RequestBody CalendarDTO calendarDTO) {
         log.info("here is CalendarController. calendarDTO: " + calendarDTO);
+
         CalendarDTO result = calendarService.register(calendarDTO);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
