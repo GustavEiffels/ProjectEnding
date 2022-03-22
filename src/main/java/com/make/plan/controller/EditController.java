@@ -32,7 +32,7 @@ public class EditController {
         return "/edit/editmain";
     }
 
-    @GetMapping("/unsubscribe")
+    @GetMapping("/edit_status")
     public void unsubscribe(){};
 
     @GetMapping("/editmain")

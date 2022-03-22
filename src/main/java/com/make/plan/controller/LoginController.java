@@ -70,15 +70,18 @@ public class LoginController {
         boolean isLogin = (boolean) loginResult.get("loginResult");
 
         // isLogin ---> ture : 로그인 값이 유효 하다면
-        if (isLogin) {
+        if (isLogin)
+        {
             session.setAttribute("code", (Long) loginResult.get("code"));
             session.setAttribute("nick", (String) loginResult.get("nick"));
-            if (loginResult.get("status").equals("7day")) {
-                url = "member/unscribe/cancle";
+            if (loginResult.get("status").equals("휴면")) {
+                url = "edit/unSub/cancel";
             } else if (loginResult.get("status").equals("회원")) {
                 url = "calendar/main";
             }
-        } else {
+        }
+        else
+        {
             String pwError = (String) loginResult.get("pwError");
             /**
              *  pwError 가 존재 ---> pw 가 틀렸음

@@ -3,9 +3,6 @@ package com.make.plan.service.forCustomer.validationHandling;
 
 import com.make.plan.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.val;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
@@ -46,7 +43,7 @@ public class ValidateHandling {
         }
         else
         {
-         result = idValid(account);
+            result = idValid(account);
         }
 
         return result;
@@ -86,8 +83,8 @@ public class ValidateHandling {
                 // status 의 값이  'expired' 가 아니라면
                 if(!status.equals("expired"))
                 {
-                 String getEmail = (String)info[1];
-                 if(CryptoUtil.decryptAES256(getEmail, "Email").equals(email))
+                    String getEmail = (String)info[1];
+                    if(CryptoUtil.decryptAES256(getEmail, "Email").equals(email))
                     {
                         isItValid=true;
                         result.put("code",(Long)info[0]);
@@ -112,8 +109,8 @@ public class ValidateHandling {
         {
             result.put
                     (
-                    "errorMessage",
-                    "It doesn't fit the email format. Please rewrite the email format"
+                            "errorMessage",
+                            "It doesn't fit the email format. Please rewrite the email format"
                     );
         }
 
@@ -180,7 +177,7 @@ public class ValidateHandling {
         // 입력한 값이 정규성에 만족하지 않기 때문에 ErrorMessage
         else if(!isItValid)
         {
-         result.put("errorMessage","The ID format does not match. Please check again");
+            result.put("errorMessage","The ID format does not match. Please check again");
         }
         return result;
     }
@@ -198,7 +195,8 @@ public class ValidateHandling {
 
     public boolean pwValid(String pw) {
         boolean result = false;
-        if (Pattern.matches("(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,16}", pw)) {
+        if (Pattern.matches("(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,16}", pw))
+        {
             result = true;
         }
         return result;
@@ -235,14 +233,14 @@ public class ValidateHandling {
         List<String> list = userRepository.getAllEmail();;
         for(String i:list){
 
-           String getEmail = CryptoUtil.decryptAES256(i, "Email");
+            String getEmail = CryptoUtil.decryptAES256(i, "Email");
 
-           if(getEmail.equals(email)){
+            if(getEmail.equals(email)){
 
-               result = true;
-               break;
+                result = true;
+                break;
 
-           }
+            }
 
         }
         return result;
@@ -286,6 +284,7 @@ public class ValidateHandling {
      * */
 
 
+
     public Map<String, String> joinValidation(String email, String id, String nick, String pw, String pwCheck) throws Exception {
 
 
@@ -304,7 +303,7 @@ public class ValidateHandling {
          * true 일 때 서로 일치
          * false 일 때 서로 일치하지 않음
          */
-        boolean pwResult = pwAndPwCheck(pw, pwCheck);
+        boolean pwResult = isPwEqual(pw, pwCheck);
         System.out.println(pw);
         System.out.println(pwCheck);
 
@@ -354,62 +353,67 @@ public class ValidateHandling {
     /**
      * 입력 받은 id , 혹은 email 의 공백 제거 -----------------------------------------------------------------------------
      */
-     String emptyDelete(String account) {
+    String emptyDelete(String account) {
         account = account.toLowerCase().replace(" ","");
         return account;
     }
 
+    /** pw 와 pwCheck 가 일치하는지 판단하는 method
+     */
 
-
-    public boolean pwAndPwCheck(String pw, String pwCheck) {
-        boolean pwSameCheck = false;
-        if(pw.equals(pwCheck)){
-            pwSameCheck = true;
+    public boolean isPwEqual(String pw, String pwCheck)
+    {
+        boolean isValid = false;
+        if(pw.equals(pwCheck))
+        {
+            isValid = true;
         }
-        return pwSameCheck;
+        return isValid;
     }
 
 
 
 
-    /***
-     * return 결과과 true 이면 닉네임이 중복된다는 얘기
-     * return 결과가 false 이면 닉네임 중복이 아니라는 신호
-     */
 
+    /**
+     * true ---> 중복된 값이 없다
+     * false ---> 중복된 값이 존재한다
+     */
 
     public boolean nickDuplicateCheck(String nick, String currentNick) {
         boolean nickNotDuplicate = true;
 
-        /** nick name 을 전부 list 로 들고온다
-         *
-         * currentNick 은 현재 nick
-         * */
+        /**
+         * 모든 nick name 을 들고 온다
+         */
         List<String> nickDuplicateCheck = userRepository.getAllNick();
 
-        for(String nickCheck:nickDuplicateCheck){
+        for(String nickCheck:nickDuplicateCheck)
+        {
 
-            /**
-             * list 안의 요소 nickCheck 가 바꾸려고 하는 요소 nick 이랑 같다면
-             * */
-            if(nickCheck.equals(nick)){
+            // nick 이 중복할 경우 ---------------------------------------
+            if(nickCheck.equals(nick))
+            {
 
-                /** 이 상황에서 현재 닉네임이랑 nickCheck 랑 같다면 continue
-                 * */
-                if(nickCheck.equals(currentNick)){
+                // 그 중복된 값이 현재 사용하고 있는 nick 인 경우 통과 -------------------------
+                if(nickCheck.equals(currentNick))
+                {
                     continue;
 
                     /** 그렇지 않다는 것은 다른누군가가 사용하고 있다는 말이기 때문에
                      * nickDuplicate 를 true 로 변경
                      * */
-                }else {
+                }
+                // 그 중복된 값이 현재 사용하고 있는 nick 이 아닌 경우 ----------------------------------
+                // 다른 사용자가 있다는 의미
+                else
+                {
                     nickNotDuplicate = false;
                 }
+
             }
         }
         return nickNotDuplicate;
     }
 
-
-
-    }
+}

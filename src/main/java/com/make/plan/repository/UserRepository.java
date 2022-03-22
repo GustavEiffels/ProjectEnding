@@ -34,6 +34,11 @@ public interface UserRepository extends JpaRepository<User,Long>{
     List<String> getALLId();
 
 
+    @Modifying
+    @Transactional
+    @Query(value = "update User set modDate=:modDate where code=:code")
+    int updateModDateTemp(@Param("modDate") LocalDateTime modDate, @Param("code")Long code);
+
 
     @Query(value = "select u.id, u.pw, u.nick, u.status, u.code , u.birthday from User u where u.id =:id")
     Object findById(@Param("id") String id);
@@ -45,19 +50,21 @@ public interface UserRepository extends JpaRepository<User,Long>{
 
     // --------FindServiceImpl------------------------------------ User 정보 찾기 기능 ----------------------------------------
 
-    /**
-     * nick name 을 Parameter 로 받아서
-     * id, email, status 를 return
-     *
-     * 사용 목적 :
-     * 닉네임으로 사용자의 아이디와 Email 을 마스킹 해서 View 에 표출
+
+    /** -------- nick 을 입력 받으면 id, email , status 를 받는 method -----------------------------------------------------
      */
     @Query(value = "select u.id, u.email, u.status from User u where u.nick = :nick")
     Object findByNick(@Param("nick") String nick);
 
+
+    /** -------- user 의 code, email, pw, nick, status ,birthday 를 받아옴 -----------------------------------------------
+     */
     @Query(value = "select code, email, pw, nick, status, birthday from User")
     List<Object[]> findAllByEmail();
 
+
+    /** ---------- id 를 입력 받아서 code, id, pw, nick, status ,birthday 를 return ----------------------------------------
+     */
     @Query(value = "select u.code , u.id, u.pw, u.nick, u.status, u.birthday  from User u where u.id =:id")
     Object findAllById(@Param("id") String id);
 
@@ -140,44 +147,33 @@ public interface UserRepository extends JpaRepository<User,Long>{
     // 비밀번호 까지 같이 바꿀 경우 -----------------------------------------------
     // 회원정보 수정 =====================================================================================================
 
-    // nick name 을 입력받으면 code 를 리턴
-    @Query(value = "select code from User where nick=:nick")
-    Long getUserCodeByNick(@Param("nick")String nick);
-
-
-    /***
-     * pw 변경할 때
-     * parameter 로  answer , context , birthday
-     * */
-
-//    @Query(value = "select code from User where code in " +
-//            "(select code from Answer where answer=:answer)" +
-//            "and ( birthday=:birthday) in " +
-//            "(select code from Answer where qno in " +
-//            "(select qno from Question where context=:context))")
-//    Long[] getCodeForChangePassword(@Param("answer")String answer,
-//                                    @Param("birthday")LocalDate birthday,
-//                                    @Param("context")String context);
 
 
 
 
+    // 회원 탈퇴에서만 사용하는 method =======================================================================================
+
+    /** code 를 입력 받아서 status 를 변경하기 위한 method -----------
+     */
+    @Modifying
+    @Transactional
+    @Query(value = "update User set status=:status where code=:code")
+    int unSub(@Param("status") String status, @Param("code")Long code);
 
 
 
-
-
-
-
-
-
-
-    // 계정 복구를 위한 method
+    /** 휴면 계정인 사용자의 status 를 '회원' 으로 변경하기 위한 method ----------
+     */
     @Modifying
     @Transactional
     @Query(value = "update User set status=:status, pw=:pw, modDate=:modDate where code=:code")
-    int unScribeCancle(@Param("status")String status,
-                       @Param("pw")String pw,
-                       @Param("modDate") LocalDateTime modDate,
-                       @Param("code")Long code);
+    int unSubCancel(@Param("status")String status,
+                    @Param("pw")String pw,
+                    @Param("modDate") LocalDateTime modDate,
+                    @Param("code")Long code);
+
+
+    // --------------------------- 사용자의 비밀번호를 가져오는 method
+    @Query(value = "select pw from User where code=:code")
+    String getPw(@Param("code")Long code);
 }

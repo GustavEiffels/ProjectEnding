@@ -15,29 +15,35 @@
             <div class="col-md-9 col-lg-7">
                 <div class="login-wrap p-4 p-md-6">
                     <div class="d-flex">
-                        <h3 class="mb-4">Edit Info!</h3>
+                        <h3 class="mb-4">UnSubscribe</h3>
                     </div>
                     <div>
-                        <span class="mb-4" th:text="${session.nick}"/>
-                        <span class="mb-4" >what do you do </span>
+                        <span class="mb-4" >If you wish to unsubscribe, please enter your password</span>
                     </div>
                     </br>
-                    <form action="/board/list" method="get" id="joinForm">
+                    <form th:action="@{/edit/unSub/}" method="post" >
                         <div class="input-group mb-3">
-                            <span class="form-control-plaintext input-group-text col-3">Edit Info </span>
-                            <button class="btn btn-primary rounded btn-authentication" type="button"
-                                    onclick="location.href='/edit/edit_info';">Modify My Info</button>
+                            <span class="form-control-plaintext input-group-text col-3">Password</span>
+                            <input class="form-control" name="pw">
+                        </div>
+                        <div>
+                            <span style="color: red" th:text="${valid_pw}"></span>
+                            <span style="color: red" th:text="${errorMessage}"></span>
                         </div>
                         <br/>
-                        <div class="input-group mb-3">
-                            <span class="form-control-plaintext input-group-text col-3">UnSubScribe</span>
-                            <button class="btn btn-primary rounded btn-authentication" type="button"
-                                    onclick="location.href='/edit/edit_status'">UnSubScribe</button>
+                        <div>
+                            <button class="btn btn-primary rounded btn-authentication" type="submit">
+                                UnSubScribe !!
+                            </button>
                         </div>
+                        <br/>
+
 
                     </form>
+
                     <button class="btn btn-primary rounded btn-authentication" type="button"
-                            onclick="location.href='/calendar/main'">Go to Main page </button>
+                            onclick="location.href='/calendar/main'">Go to Main page
+                    </button>
 
                 </div>
             </div>

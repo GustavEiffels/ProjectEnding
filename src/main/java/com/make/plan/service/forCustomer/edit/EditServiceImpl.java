@@ -38,10 +38,9 @@ public class EditServiceImpl implements EditService{
     private final AnswerRepository answerRepository;
 
 
-
     private  final ValidateHandling validateHandling;
 
-//    @Query(value = "select id, email, gender, birthday from User where id = :nick ")
+    //    @Query(value = "select id, email, gender, birthday from User where id = :nick ")
     @Override
     public Map<String, Object> bringUserInfo(String nick) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, InvalidKeyException {
         Object result = userRepository.bringUserData(nick);
@@ -74,7 +73,7 @@ public class EditServiceImpl implements EditService{
         String userAnswer = answerRepository.getAnswerByCode(userCode);
         return userAnswer;
     }
-//
+    //
     @Override
     public String bringQuestionInfo(Long code) {
         User userCode  = User.builder()
@@ -92,20 +91,21 @@ public class EditServiceImpl implements EditService{
         return userContext;
     }
 
+    /** 입력한 비밀번호가, 사용자의 비밀번호와 같은지 확인하는 method
+     */
     @Override
-    public boolean bringPwForRetire(String pw,String nick) {
-        boolean userConfirm = false;
-        String userPw = userRepository.brinUserPw(nick);
-        if(BCrypt.checkpw(pw, userPw)){
-            userConfirm = true;
+    public boolean isPwEqual(String pw,Long code)
+    {
+        boolean isValid = false;
+
+        String userPw = userRepository.getPw(code);
+
+        if(BCrypt.checkpw(pw, userPw))
+        {
+            isValid = true;
         }
-        /**
-         * nick name 으로 user 의 pw 를 가져오는 것이라서
-         * pw 가 없을 수가 없다 .
-         */
 
-
-        return userConfirm;
+        return isValid;
     }
 
 
@@ -242,8 +242,8 @@ public class EditServiceImpl implements EditService{
              * true --> 일치
              * false ---> 불일치
              */
-            isPwCheckValid = validateHandling.pwAndPwCheck(pw,pwCheck);
-            if(validateHandling.pwAndPwCheck(pw,pwCheck))
+            isPwCheckValid = validateHandling.isPwEqual(pw,pwCheck);
+            if(validateHandling.isPwEqual(pw,pwCheck))
             {
                 pw = BCrypt.hashpw(pw,BCrypt.gensalt());
             }
@@ -265,14 +265,14 @@ public class EditServiceImpl implements EditService{
             result.put("result",true);
             // 비밀번호 변경을 포함 할 때 --------------------------
             if(isPwChange)
-               {
+            {
                 userRepository.changeUserInfo(currentNick, nick, pw, gender, birthdayChanged);
-               }
+            }
             // 비밀번호 변경을 포함하지 않을 때 ---------------------
             else
-                {
+            {
                 userRepository.changeUserInfoExceptPw(currentNick,nick,gender,birthdayChanged);
-                }
+            }
 
         }
         // error 가 발생한 경우  -------------------------------------------------------------------------
@@ -297,7 +297,7 @@ public class EditServiceImpl implements EditService{
 
 
     /**
-     *  parameter 값이 null 인지 판별하는 methode -----------------------------------------------------------------------------------------------------------------------------
+     *  parameter 값이 null 인지 판별하는 method -----------------------------------------------------------------------------------------------------------------------------
      */
     @Override
     public Map<String, Object> parameterValidCheck(HttpSession session, String nick, String pw, String answer, String gender, String birthday, String context)
@@ -361,7 +361,7 @@ public class EditServiceImpl implements EditService{
 
         if(gender==null)
         {
-            gender=(String)session.getAttribute("gender");
+            gender=(String)session.getAttribute("userGender");
             if(gender.equals("Male"))
             {
                 gender = "m";
@@ -377,7 +377,7 @@ public class EditServiceImpl implements EditService{
         // ------------------------------------ birthday 가 유효한지
         if(birthday.isEmpty())
         {
-            LocalDate getBirthday= (LocalDate) session.getAttribute("birthday");
+            LocalDate getBirthday= (LocalDate) session.getAttribute("userBirthday");
             birthday = String.valueOf(getBirthday);
         }
         // ------------------------------------ birthday 가 유효한지
@@ -385,51 +385,51 @@ public class EditServiceImpl implements EditService{
 
         // ------------------------------------ answer 가 null 인지 아닌지
         if(answer.isEmpty())
-            {
-                answer = (String) session.getAttribute("answer");
-            }
+        {
+            answer = (String) session.getAttribute("userAnswer");
+        }
 
         else
+        {
+            if(!validateHandling.answerValid(answer))
             {
-                if(!validateHandling.answerValid(answer))
-                {
-                    result.put("answerValidError", "answer type is Korean, numeric, English 2~20 characters");
-                    isValid=false;
-                }
+                result.put("answerValidError", "answer type is Korean, numeric, English 2~20 characters");
+                isValid=false;
             }
+        }
         // ------------------------------------ answer 가 null 인지 아닌지
 
 
         // ------------------------------------ 질문이 null 인지 아닌지
         if(context.isEmpty())
-            {
-                context = (String)session.getAttribute("context");
+        {
+            context = (String)session.getAttribute("userContext");
 
-                /** 질문 변경이 없다 ---> 현재 질문에 유지
-                 *
-                 * 그에 대한 답도 없다 ----> 질문에 다한 답 또한 유지
-                 * */
-            }
+            /** 질문 변경이 없다 ---> 현재 질문에 유지
+             *
+             * 그에 대한 답도 없다 ----> 질문에 다한 답 또한 유지
+             * */
+        }
 
         else
+        {
+            /**
+             * 질문이 null 이 아니고 기존의 질문과 일치하지 않다면 ----> 즉 달라진다면
+             * answer 도 무조건 달라져야하는데.
+             * Answer 의 값이 null 이라면 error
+             *
+             * */
+            if((!context.equals((String)session.getAttribute("userContext")))&&answer==null)
             {
-                /**
-                * 질문이 null 이 아니고 기존의 질문과 일치하지 않다면 ----> 즉 달라진다면
-                * answer 도 무조건 달라져야하는데.
-                * Answer 의 값이 null 이라면 error
-                 *
-                * */
-                if((!context.equals((String)session.getAttribute("context")))&&answer==null)
-                    {
-                        result.put("errorMessage", "If you want to change a question, please enter an answer to the question");
-                        isValid=false;
-                    }
-
-                if((context.equals((String)session.getAttribute("cContext")))&&answer==null)
-                    {
-                        answer = (String) session.getAttribute("answer");
-                    }
+                result.put("errorMessage", "If you want to change a question, please enter an answer to the question");
+                isValid=false;
             }
+
+            if((context.equals((String)session.getAttribute("userContext")))&&answer==null)
+            {
+                answer = (String) session.getAttribute("userAnswer");
+            }
+        }
         // ------------------------------------ 질문이 null 인지 아닌지
 
         result.put("isValid", isValid);
@@ -443,26 +443,25 @@ public class EditServiceImpl implements EditService{
             result.put("birthday", birthday);
             result.put("context", context);
         }
-     return result;
+        return result;
     }
 
-
+    /** 비밀번호가 서로 일치하면 user 상태를 회원으로 변경하는 method -------------------------------------------------------------
+     */
     @Override
-    public int unSubScribeCancle(String pw,  String pwCheck, Long code) {
-        int result = -1;
-        String pwresult = null;
-        String status = "회원";
+    public int unSubCancel(String pw,  String pwCheck, Long code) {
+        // 비밀번호가 서로 일치할 때 -------------------
+        if( validateHandling.isPwEqual(pw,pwCheck) )
+        {
 
-        /*** 새로운 pw 가 pwcheck 와 맞는지 확인 ----> 이거 method 따로 빼서 만들자  많이 사용됨
-         * */
-        if(validateHandling.pwAndPwCheck(pw,pwCheck)){
-            pwresult = BCrypt.hashpw(pw,BCrypt.gensalt());
             LocalDateTime modDate = LocalDateTime.now();
-            result = userRepository.unScribeCancle(status, pwresult, modDate, code);
+            // 회원 정보를 "회원" 으로 변경 ------------------
+            return userRepository.unSubCancel("회원", BCrypt.hashpw(pw,BCrypt.gensalt()), modDate, code);
         }
-
-
-
-        return result;
+        // 비밀번호가 서로 일치하지 않을 때 -----------------------
+        else
+        {
+            return -1;
+        }
     }
 }
