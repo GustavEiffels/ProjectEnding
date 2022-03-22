@@ -2,8 +2,10 @@ package com.make.plan.service.forCustomer.validationHandling;
 
 
 import com.make.plan.repository.UserRepository;
-import com.make.plan.service.forCustomer.duplicateCheck.PwAndDupCheck;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
@@ -283,7 +285,6 @@ public class ValidateHandling {
      *  id, email , nick  중복 검사 method + pw 확인  method
      * */
 
-    private final PwAndDupCheck pwAndDupCheck;
 
     public Map<String, String> joinValidation(String email, String id, String nick, String pw, String pwCheck) throws Exception {
 
@@ -303,7 +304,7 @@ public class ValidateHandling {
          * true 일 때 서로 일치
          * false 일 때 서로 일치하지 않음
          */
-        boolean pwResult = pwAndDupCheck.pwAndPwCheck(pw, pwCheck);
+        boolean pwResult = pwAndPwCheck(pw, pwCheck);
         System.out.println(pw);
         System.out.println(pwCheck);
 
@@ -357,5 +358,58 @@ public class ValidateHandling {
         account = account.toLowerCase().replace(" ","");
         return account;
     }
+
+
+
+    public boolean pwAndPwCheck(String pw, String pwCheck) {
+        boolean pwSameCheck = false;
+        if(pw.equals(pwCheck)){
+            pwSameCheck = true;
+        }
+        return pwSameCheck;
+    }
+
+
+
+
+    /***
+     * return 결과과 true 이면 닉네임이 중복된다는 얘기
+     * return 결과가 false 이면 닉네임 중복이 아니라는 신호
+     */
+
+
+    public boolean nickDuplicateCheck(String nick, String currentNick) {
+        boolean nickNotDuplicate = true;
+
+        /** nick name 을 전부 list 로 들고온다
+         *
+         * currentNick 은 현재 nick
+         * */
+        List<String> nickDuplicateCheck = userRepository.getAllNick();
+
+        for(String nickCheck:nickDuplicateCheck){
+
+            /**
+             * list 안의 요소 nickCheck 가 바꾸려고 하는 요소 nick 이랑 같다면
+             * */
+            if(nickCheck.equals(nick)){
+
+                /** 이 상황에서 현재 닉네임이랑 nickCheck 랑 같다면 continue
+                 * */
+                if(nickCheck.equals(currentNick)){
+                    continue;
+
+                    /** 그렇지 않다는 것은 다른누군가가 사용하고 있다는 말이기 때문에
+                     * nickDuplicate 를 true 로 변경
+                     * */
+                }else {
+                    nickNotDuplicate = false;
+                }
+            }
+        }
+        return nickNotDuplicate;
+    }
+
+
 
     }

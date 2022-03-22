@@ -5,7 +5,6 @@ import com.make.plan.entity.User;
 import com.make.plan.repository.AnswerRepository;
 import com.make.plan.repository.QuestionRepository;
 import com.make.plan.repository.UserRepository;
-import com.make.plan.service.forCustomer.duplicateCheck.PwAndDupCheck;
 import com.make.plan.service.forCustomer.validationHandling.CryptoUtil;
 import com.make.plan.service.forCustomer.validationHandling.ValidateHandling;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +38,6 @@ public class EditServiceImpl implements EditService{
     private final AnswerRepository answerRepository;
 
 
-    private final PwAndDupCheck pwAndDupCheck;
 
     private  final ValidateHandling validateHandling;
 
@@ -211,7 +209,7 @@ public class EditServiceImpl implements EditService{
          * 중복 x --> true
          * 중복 o --> false
          * */
-        boolean isNickValid = pwAndDupCheck.nickDuplicateCheck(nick, currentNick);
+        boolean isNickValid = validateHandling.nickDuplicateCheck(nick, currentNick);
 
 
         // pw 와 pwCheck 가 서로 일치하는지 판별
@@ -244,8 +242,8 @@ public class EditServiceImpl implements EditService{
              * true --> 일치
              * false ---> 불일치
              */
-            isPwCheckValid = pwAndDupCheck.pwAndPwCheck(pw,pwCheck);
-            if(pwAndDupCheck.pwAndPwCheck(pw,pwCheck))
+            isPwCheckValid = validateHandling.pwAndPwCheck(pw,pwCheck);
+            if(validateHandling.pwAndPwCheck(pw,pwCheck))
             {
                 pw = BCrypt.hashpw(pw,BCrypt.gensalt());
             }
@@ -457,7 +455,7 @@ public class EditServiceImpl implements EditService{
 
         /*** 새로운 pw 가 pwcheck 와 맞는지 확인 ----> 이거 method 따로 빼서 만들자  많이 사용됨
          * */
-        if(pwAndDupCheck.pwAndPwCheck(pw,pwCheck)){
+        if(validateHandling.pwAndPwCheck(pw,pwCheck)){
             pwresult = BCrypt.hashpw(pw,BCrypt.gensalt());
             LocalDateTime modDate = LocalDateTime.now();
             result = userRepository.unScribeCancle(status, pwresult, modDate, code);

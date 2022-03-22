@@ -3,11 +3,9 @@ package com.make.plan.service.forCustomer.duplicateCheck;
 import com.make.plan.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 @RequiredArgsConstructor
 @Log4j2
 public class PwAndDupCheckImpl implements PwAndDupCheck{
