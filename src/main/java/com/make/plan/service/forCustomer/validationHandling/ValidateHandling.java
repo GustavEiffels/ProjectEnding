@@ -74,6 +74,9 @@ public class ValidateHandling {
             // userInfo[4] = status
             // userInfo[5] = birthday
             List<Object[]> userInfo = userRepository.findAllByEmail();
+            Object[] userEmail = userInfo.get(1);
+
+            System.out.println(userEmail);
 
             for(Object[] info: userInfo){
 

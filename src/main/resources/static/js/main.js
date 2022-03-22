@@ -3131,6 +3131,7 @@ var FullCalendar = (function (exports) {
             this.dispatch({
                 type: 'CHANGE_DATE',
                 dateMarker: state.dateEnv.createMarker(zonedDateInput),
+                dateMarker: state.dateEnv.createMarker(zonedDateInput),
             });
         };
         CalendarApi.prototype.incrementDate = function (deltaInput) {

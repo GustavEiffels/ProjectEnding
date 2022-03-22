@@ -43,7 +43,7 @@ public class EditController {
     @GetMapping("/edit_info")
     public void editInfo(HttpSession session) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, InvalidKeyException {
 
-        String nick = (    String) session.getAttribute("nick");
+        String nick = (String) session.getAttribute("nick");
         Map<String, Object> result = editService.bringUserInfo(nick);
         String userId = (String) result.get("userId");
         String userEmail = (String)result.get("userEmail");

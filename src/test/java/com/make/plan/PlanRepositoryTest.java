@@ -4,6 +4,7 @@ import com.make.plan.dto.CalendarDTO;
 import com.make.plan.entity.Plan;
 import com.make.plan.entity.User;
 import com.make.plan.repository.PlanRepository;
+import com.make.plan.repository.UserRepository;
 import com.make.plan.service.CalendarService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 
 import javax.transaction.Transactional;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -97,6 +101,31 @@ public class PlanRepositoryTest {
 //
 //    }
 
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Test
+    public void userEmailList(){
+        List<Object[]> userInfo = userRepository.findAllByEmail();
+
+       List<String> userList = new ArrayList<String>();
+
+       for (Object[] list : userInfo){
+           userList.add(userInfo.get(1).toString());
+       }
+
+
+        // 객체의 값이 나와버림
+        for (String user : userList){
+            System.out.println(user.toString());
+        }
+
+
+//        Object[] userEmail = userInfo.get(1);
+
+
+    }
 
 
 }

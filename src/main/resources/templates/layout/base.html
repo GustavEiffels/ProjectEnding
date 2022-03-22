@@ -110,10 +110,53 @@
                             </div>
                         </form>
                     </div>
+                    <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+                            data-bs-target="#friend-collapse" aria-expanded="false">
+                        Friend
+                    </button>
+                    <div class="collapse" id="friend-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="#" class="link-dark rounded" id="friend-modal">friend list</a></li>
+                            <li><a href="#" class="link-dark rounded">add friend</a></li>
+                        </ul>
+                    </div>
 
                 </li>
             </ul>
         </div>
+
+        <!-- 친구 등록을 위한 검색 모달 창 / ajax 방식 -->
+        <div class="friendModal modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"></h5>
+                    </div>
+                    <div class="modal-body">
+                        <!-- 유저 검색 -->
+                        <div class="form-group mb-3">
+                            <label>Search</label>
+                            <input type="text" class="form-control" name="Search" placeholder="Enter 'User Id or NickName'">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>Searching User</label>
+                            <input type="text" class="form-control" name="SearchUser">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary addBtn">Add</button>
+                        <button type="button" class="btn btn-secondary closeBtn">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script th:src="@{/js/starrr.js}"></script>
+        <link th:href="@{/css/starrr.css}" rel="stylesheet">
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+
+
 
         <div class="b-example-divider"></div>
 
@@ -122,6 +165,44 @@
         </div>
 
     </main>
+
+    <script>
+        $(document).on("click", "#friend-modal", function (){
+                $('.friendModal').modal('show');
+                $(".closeBtn").off('click').on("click", function () {
+                    $('.friendModal').modal('hide');
+                });
+
+            // modal 창에서 입력 받은 데이터를 ajax 방식으로 서버에 데이터 전송
+            $(".addBtn").off('click').on("click", function () {
+                var data = $('input[name="Search"]').val();
+                console.log("data_save: ", data)
+                if (data.search) {
+                    $.ajax({
+                        url: '/calendar/member/friendAdd',
+                        type: "POST",
+                        data: JSON.stringify(data),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "text",
+                        error: function (result) {
+                            console.log("data send fail : ", result);
+                        },
+                        success: function (result) {
+                            console.log("result of Registering: ", result);
+                            calendar.addEvent(JSON.parse(result));
+                        },
+                    });
+                    planModal.modal('hide');
+                } else {
+                    alert("검색 할 유저의 ID 나 NickName을 입력 해 주세요 ")
+                }
+            });
+
+        })
+
+    </script>
+
+
 
     </body>
 </th:block>
