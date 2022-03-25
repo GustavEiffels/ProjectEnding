@@ -139,6 +139,16 @@
                             <!--  -->
                             <input type="text" class="form-control" name="Search" placeholder="Enter 'User Id or NickName'">
                         </div>
+<!--                        <form action="/calendar/member/friendAdd" method="get" id="searchForm">-->
+<!--                            <label>Search</label>-->
+<!--                            &lt;!&ndash;  &ndash;&gt;-->
+<!--                            <input type="text" class="form-control" name="Search" placeholder="Enter 'User Id or NickName'">-->
+<!--                        </form>-->
+                        <div id="searchButton">
+                            <button>search</button>
+                        </div>
+
+
                         <div class="form-group mb-3">
                             <label>Searching User</label>
                             <input type="text" class="form-control" name="SearchUser">
@@ -174,14 +184,21 @@
                     $('.friendModal').modal('hide');
                 });
 
-            // modal 창에서 입력 받은 데이터를 ajax 방식으로 서버에 데이터 전송
-            $(".addBtn").off('click').on("click", function () {
+                // var sarchFrom = $("#searchForm");
+                // $('.addBtn').click(function (){
+                //     sarchFrom.submit();
+                //     console.log(sarchFrom)
+                // })
+
+            //modal 창에서 입력 받은 데이터를 ajax 방식으로 서버에 데이터 전송
+            $(".addBtn").off('click').on("click property-change change keyup paste input", function () {
                 var data = $('input[name="Search"]').val();
                 console.log("data_save: ", data)
                 if (data.search) {
                     $.ajax({
                         url: '/calendar/member/friendAdd',
                         type: "POST",
+                        async: true,
                         data: JSON.stringify(data),
                         contentType: "application/json; charset=utf-8",
                         dataType: "text",
