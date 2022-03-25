@@ -4,6 +4,7 @@ import com.make.plan.dto.FriendDTO;
 import com.make.plan.entity.Friend;
 import com.make.plan.entity.User;
 import com.make.plan.repository.FriendRepository;
+import com.make.plan.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,16 +18,19 @@ public class FriendServiceImpl implements FriendService {
 
     private final FriendRepository friendRepository;
 
+    private final UserRepository userRepository;
 
     @Override
-    public List<User> userSearching(String keyword) {
+    public List<User> userSearching(String data) {
 
-        List<User> searchUser_ID = friendRepository.userSearching(keyword);
+//        keyword = "%"+keyword+"%";
+
+        List<User> searchUser_ID = userRepository.userSearching(data);
 
         if(searchUser_ID != null){
             return searchUser_ID;
         }else{
-            List<User> searchUser_NICK = friendRepository.userSearching_NICK(keyword);
+            List<User> searchUser_NICK = userRepository.userSearching_NICK(data);
             return searchUser_NICK;
         }
     }

@@ -2,15 +2,12 @@ package com.make.plan;
 
 import com.make.plan.dto.CalendarDTO;
 import com.make.plan.entity.Plan;
-import com.make.plan.entity.QUser;
+
 import com.make.plan.entity.User;
 import com.make.plan.repository.PlanRepository;
 import com.make.plan.repository.UserRepository;
 import com.make.plan.service.CalendarService;
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.JPQLQuery;
-import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -131,10 +128,6 @@ public class PlanRepositoryTest {
 
     }
 
-    @Test
-    public void  queryDSLTets(){
-
-    }
 
 
 

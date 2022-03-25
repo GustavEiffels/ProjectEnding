@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/calendar/member")
+@RequestMapping("calendar/member")
 @Log4j2
 @RequiredArgsConstructor
 public class FriendController {
@@ -25,11 +25,13 @@ public class FriendController {
 
     private final FriendService friendService;
 
-    @GetMapping("/friendAdd")
-    public List<UserDTO> getUserInfo(HttpSession session, @RequestBody String search_keyword){
-        log.info(search_keyword);
+    @PostMapping("/friendAdd")
+    public List<UserDTO> getUserInfo(@RequestBody String data){
+        log.info(data);
 
-        List<User> userInfo = friendService.userSearching(search_keyword);
+//        List<User> userInfo = friendService.userSearching(data);
+
+//        log.info(userInfo);
 
 
 

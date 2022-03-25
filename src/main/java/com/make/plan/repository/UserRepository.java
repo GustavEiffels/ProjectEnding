@@ -176,4 +176,21 @@ public interface UserRepository extends JpaRepository<User,Long>{
     // --------------------------- 사용자의 비밀번호를 가져오는 method
     @Query(value = "select pw from User where code=:code")
     String getPw(@Param("code")Long code);
+
+
+
+    @Query(value = "select nick from User where id = :data", nativeQuery = true)
+    List<User> userSearching(String data);
+
+    @Query(value = "select nick from User where nick = :data", nativeQuery = true)
+    List<User> userSearching_NICK(String data);
+
+
+
+
+
+
+
+
+
 }
