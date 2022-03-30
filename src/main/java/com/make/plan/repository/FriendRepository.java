@@ -14,6 +14,8 @@ import java.util.List;
 
 public interface FriendRepository extends JpaRepository<Friend, Long> {
 
+    @Query(value = "select request from friend where response = :data", nativeQuery = true)
+    String userSearching(String data);
 
 
 //    @Query(value = "select * from User where id Like '%':id'%'", nativeQuery = true)

@@ -1,21 +1,20 @@
 package com.make.plan.controller;
 
-import com.make.plan.dto.FriendDTO;
 import com.make.plan.dto.UserDTO;
 import com.make.plan.entity.User;
 import com.make.plan.service.FriendService;
 import com.make.plan.service.forCustomer.find.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @RequestMapping("calendar/member")
 @Log4j2
 @RequiredArgsConstructor
@@ -25,18 +24,30 @@ public class FriendController {
 
     private final FriendService friendService;
 
+
     @PostMapping("/friendAdd")
-    public List<UserDTO> getUserInfo(@RequestBody String data){
-        log.info(data);
+    public @ResponseBody List<UserDTO> getUserInfo(@RequestBody HashMap<String, Object> data, Model model){
 
-//        List<User> userInfo = friendService.userSearching(data);
+//        System.out.println(data);
+//
+//        System.out.println(data.get("data"));
 
-//        log.info(userInfo);
+//        String dataParsing = (String)data.get("data");
+
+        List<UserDTO> userInfo = friendService.userSearching(data.get("data").toString());
 
 
+//        System.out.println("send data searching result : " + userInfo);
 
+//        model.addAttribute("userInfo", userInfo);
 
-        return null;
+        return userInfo;
+
     }
+
+
+
+
+
 
 }

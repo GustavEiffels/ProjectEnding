@@ -8,6 +8,8 @@ import com.make.plan.repository.PlanRepository;
 import com.make.plan.repository.UserRepository;
 import com.make.plan.service.CalendarService;
 
+import com.make.plan.service.FriendService;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -124,6 +126,15 @@ public class PlanRepositoryTest {
 
 
 //        Object[] userEmail = userInfo.get(1);
+
+
+    }
+
+    @Autowired
+    private FriendService friendService;
+
+//    @Test
+    public void userSearchingTest(){
 
 
     }

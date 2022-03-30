@@ -134,19 +134,29 @@
                     </div>
                     <div class="modal-body">
                         <!-- 유저 검색 -->
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-3" >
                             <label>Search</label>
                             <!--  -->
-                            <input type="text" class="form-control" name="Search" placeholder="Enter 'User Id or NickName'">
+                            <input type="text" id="search-reset" class="form-control" name="Search" placeholder="Enter 'User Id or NickName'">
+<!--                            <button type="button" class="btn btn-secondary searchBtn">Search</button>-->
                         </div>
-<!--                        <form action="/calendar/member/friendAdd" method="get" id="searchForm">-->
+<!--                        <form action="/calendar/member/friendAdd" method="post" id="searchForm">-->
 <!--                            <label>Search</label>-->
 <!--                            &lt;!&ndash;  &ndash;&gt;-->
-<!--                            <input type="text" class="form-control" name="Search" placeholder="Enter 'User Id or NickName'">-->
+<!--                            <input type="text" class="form-control" name="search" placeholder="Enter 'User Id or NickName'">-->
+<!--                            <input type="submit" th:value="Search">-->
 <!--                        </form>-->
-                        <div class="form-group mb-3">
-                            <label>Searching User</label>
-                            <input type="text" class="form-control" name="SearchUser">
+                        <div class="form-group mb-3" >
+                            <table class="table table-striped" border="1">
+                                <thead>
+                                <tr>
+                                    <th scope="col">User Nick</th>
+                                    <th scope="col">select</th>
+                                </tr>
+                                </thead>
+                                <tbody class="ajax-data-loading">
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -175,39 +185,70 @@
     <script>
         $(document).on("click", "#friend-modal", function (){
                 $('.friendModal').modal('show');
+
                 $(".closeBtn").off('click').on("click", function () {
+                    // $(".form-control").text("");
+                    // $(".ajax-data-loading  > tr > th").empty();
                     $('.friendModal').modal('hide');
                 });
 
-                // var sarchFrom = $("#searchForm");
-                // $('.addBtn').click(function (){
-                //     sarchFrom.submit();
-                //     console.log(sarchFrom)
-                // })
-
-            //modal 창에서 입력 받은 데이터를 ajax 방식으로 서버에 데이터 전송
-            $(".addBtn").off('click').on("click", function () {
-                var data = $('input[name="Search"]').val();
-                if (data.search) {
+            // modal 창에서 입력 받은 값들에 변화가 생길 때 마다 데이터를 전송
+            // event keword : property-change, change, keyup, paste, input
+            $(".form-control").on("keyup", function () {
+                var data = {"data" : $('input[name="Search"]').val() };
+                $(".remove-attribute").remove();
+                if ($("input[name='Search']").val() != "") {
                     $.ajax({
                         url: '/calendar/member/friendAdd',
                         type: "POST",
                         data: JSON.stringify(data),
                         contentType: "application/json; charset=utf-8",
                         dataType: "text",
-                        error: function (result) {
-                            console.log("data send fail : ", result);
+                        error: function (data) {
+                            console.log("data send fail : ", data);
                         },
-                        success: function (result) {
-                            console.log("result of Registering: ", result);
-                            calendar.addEvent(JSON.parse(result));
+                        success: function (data) {
+                            var str = "";
+                            console.log("result of Registering: ", data);
+                            // var json = JSON.parse(JSON.stringify(data));
+                            var json = JSON.parse(data);
+                            // console.log("json : ", json);
+                            // console.log("json.nick : ", json[0].nick);
+                            // 이 코드만 첫음에 정상적으로 nick 가져옴
+                            // console.log("json[1].nick : ", json[1].nick);
+
+                            // var data_stringify = JSON.stringify(data);
+                            // console.log("data : ", data);
+                            // console.log("data.nick : ", data.nick);
+                            // console.log("data[0].nick : ", data[0].nick);
+
+
+
+                            if(json != ""){
+                                for(key in json){
+                                    str += "<tr class='remove-attribute'>"+"<th scope='col'>"+json[key].nick+"</th>"+"<th>"+ "<input type='radio' name='checkNICK' value='json[key].code'>" +"</th>" +"</tr>";
+                                }
+                                $(".ajax-data-loading").after(str);
+
+                            }
+
+                            $(".addBtn").on("click", function(){
+
+
+                            })
+
+
                         }
                     });
-                    planModal.modal('hide');
-                } else {
+
+
+                } else if(data == null) {
                     alert("검색 할 유저의 ID 나 NickName을 입력 해 주세요 ")
                 }
+
             });
+
+
 
         })
 

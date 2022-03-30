@@ -8,6 +8,7 @@ import com.make.plan.entity.User;
 import java.util.List;
 
 public interface FriendService {
+
     default Friend DtoToEntity(UserDTO userDTO, FriendDTO friendDTO){
         User user = User.builder().code(userDTO.getCode()).build();
         User response_user = User.builder().code(friendDTO.getResponse_u()).build();
@@ -23,7 +24,7 @@ public interface FriendService {
         return friendDTO;
     }
 
-    public List<User> userSearching(String keyword);
+    List<UserDTO> userSearching(String data);
 
 
 

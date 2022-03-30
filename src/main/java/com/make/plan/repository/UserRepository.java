@@ -179,10 +179,10 @@ public interface UserRepository extends JpaRepository<User,Long>{
 
 
 
-    @Query(value = "select nick from User where id = :data", nativeQuery = true)
+    @Query(value = "select * from User where id LIKE :data", nativeQuery = true)
     List<User> userSearching(String data);
 
-    @Query(value = "select nick from User where nick = :data", nativeQuery = true)
+    @Query(value = "select * from User where nick LIKE :data", nativeQuery = true)
     List<User> userSearching_NICK(String data);
 
 
