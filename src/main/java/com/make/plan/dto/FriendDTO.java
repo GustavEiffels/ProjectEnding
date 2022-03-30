@@ -1,5 +1,7 @@
 package com.make.plan.dto;
 
+import com.make.plan.entity.Friend;
+import com.make.plan.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,4 +20,6 @@ public class FriendDTO {
     private String status;
     private LocalDateTime regDate;
     private LocalDateTime modDate;
+
+
 }

@@ -118,6 +118,7 @@
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                             <li><a href="#" class="link-dark rounded" id="friend-modal">friend list</a></li>
                             <li><a href="#" class="link-dark rounded">add friend</a></li>
+                            <li><a href="#" class="link-dark rounded" id="friendlist-modal">친구목록</a></li>
                         </ul>
                     </div>
 
@@ -167,6 +168,24 @@
             </div>
         </div>
 
+        <!-- 친구리스트 가져오기-->
+<!--        <div class="modal-dialog" role="document">-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <h5 class="modal-title">친구목록</h5>-->
+<!--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                        <span aria-hidden="true">&times;</span>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                <div class="modal-body">-->
+<!--                    <p>[[${}]]</p>-->
+<!--                </div>-->
+<!--                <div class="modal-footer">-->
+<!--                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
 
         <script th:src="@{/js/starrr.js}"></script>
         <link th:href="@{/css/starrr.css}" rel="stylesheet">
@@ -183,14 +202,26 @@
     </main>
 
     <script>
-        $(document).on("click", "#friend-modal", function (){
-                $('.friendModal').modal('show');
+        $(document).on("click", "#friendlist-modal", function (){
+            $('.friendModal').modal('show');
 
-                $(".closeBtn").off('click').on("click", function () {
-                    // $(".form-control").text("");
-                    // $(".ajax-data-loading  > tr > th").empty();
-                    $('.friendModal').modal('hide');
-                });
+            $(".closeBtn").off('click').on("click", function () {
+                $('.friendModal').modal('hide');
+            });
+
+
+
+        $(document).on("click", "#friend-modal", function () {
+            $('.friendModal').modal('show');
+
+
+            $(".closeBtn").off('click').on("click", function () {
+                // $(".form-control").text("");
+                // $(".ajax-data-loading  > tr > th").empty();
+                $('.friendModal').modal('hide');
+            });
+
+        })
 
             // modal 창에서 입력 받은 값들에 변화가 생길 때 마다 데이터를 전송
             // event keword : property-change, change, keyup, paste, input

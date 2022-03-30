@@ -1,6 +1,7 @@
 package com.make.plan.repository;
 
 import com.make.plan.dto.FriendDTO;
+import com.make.plan.dto.UserDTO;
 import com.make.plan.entity.Friend;
 import com.make.plan.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +17,15 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
 
     @Query(value = "select request from friend where response = :data", nativeQuery = true)
     String userSearching(String data);
+
+    //세션값으로 친구리스트 가져오기
+    @Query("Select f from Friend f where f.response_u= (select u from User u where u.code=:code)")
+    List<Friend> getFriendByUser(@Param("code") Long code);
+
+//    @Query("Select u from User u left outer join Friend f on f.response_u = (Select u from User u where u.code=:code)")
+//    List<User> getFriendLists(@Param("code") Long code);
+
+
 
 
 //    @Query(value = "select * from User where id Like '%':id'%'", nativeQuery = true)

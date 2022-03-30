@@ -1,18 +1,23 @@
 package com.make.plan.service;
 
 
+import com.make.plan.dto.FriendDTO;
 import com.make.plan.dto.UserDTO;
+import com.make.plan.entity.Friend;
 import com.make.plan.entity.User;
 import com.make.plan.repository.FriendRepository;
 import com.make.plan.repository.UserRepository;
 import com.make.plan.service.forCustomer.find.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 
 
 @Service
@@ -26,6 +31,7 @@ public class FriendServiceImpl implements FriendService {
 
     private final UserRepository userRepository;
 
+    private final ModelMapper modelMapper;
     @Override
     public List<UserDTO> userSearching(String data) {
 
@@ -54,6 +60,33 @@ public class FriendServiceImpl implements FriendService {
                 }
                 return null;
             }).collect(Collectors.toList());
+        }
+    }
+
+    //친구요청
+    @Override
+    public Long sendRequest(FriendDTO dto) {
+        Friend friend = dtoToEntity(dto);
+        friendRepository.save(friend);
+        return friend.getFno();
+    }
+
+    @Override
+    public List<FriendDTO> getFriendList(Long code) {
+        List<Friend> list = friendRepository.getFriendByUser(code);
+        List<FriendDTO> dtoList = list.stream().map(friend -> modelMapper.map(friend, FriendDTO.class)).collect(Collectors.toList());
+
+        return dtoList;
+    }
+
+
+    @Transactional
+    @Override
+    public void modify(FriendDTO friendDTO) {
+        Optional<Friend> friend = friendRepository.findById(friendDTO.getFno());
+        if(friend.isPresent()) {
+            friend.get().changeStatus(friendDTO.getStatus());
+            friendRepository.save(friend.get());
         }
     }
 }

@@ -30,5 +30,8 @@ public class Friend extends BaseEntity{
     @Column(nullable = false, columnDefinition = "varchar(4)  default '대기'")
     private String status;
 
+    public void changeStatus(String status){
+        this.status=status;
+    }
 
 }

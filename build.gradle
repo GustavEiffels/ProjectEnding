@@ -42,7 +42,7 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
-
+    implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.6'
 
 
 }
