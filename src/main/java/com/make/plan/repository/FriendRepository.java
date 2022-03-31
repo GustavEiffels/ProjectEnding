@@ -14,15 +14,11 @@ import java.util.List;
 
 public interface FriendRepository extends JpaRepository<Friend, Long> {
 
-    @Query(value = "select request from friend where response = :data", nativeQuery = true)
-    String userSearching(String data);
-
-
-//    @Query(value = "select * from User where id Like '%':id'%'", nativeQuery = true)
-//    public List<User> userSearching(String id);
-//
-//    @Query(value = "select * from User where nick Like '%':nick'%'", nativeQuery = true)
-//    public List<User> userSearching_NICK(String nick);
+    // request --> 요청하는 유저 코드 => session에서 값 받아옴, response --> 친구 요청을 받는 유저 코드
+    @Transactional
+    @Modifying
+    @Query(value = "insert into Friend (request, response) values (:myCode, :code)", nativeQuery = true)
+    int friendAdd(User myCode, User code);
 
 //    // 친구 요청 승인, 거절
 //    // response_u 의 값은 session에서 user의 code를 찾아와서 대입

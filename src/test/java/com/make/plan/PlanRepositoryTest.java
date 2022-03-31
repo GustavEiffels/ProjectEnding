@@ -4,6 +4,7 @@ import com.make.plan.dto.CalendarDTO;
 import com.make.plan.entity.Plan;
 
 import com.make.plan.entity.User;
+import com.make.plan.repository.FriendRepository;
 import com.make.plan.repository.PlanRepository;
 import com.make.plan.repository.UserRepository;
 import com.make.plan.service.CalendarService;
@@ -17,10 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.transaction.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -133,8 +131,32 @@ public class PlanRepositoryTest {
     @Autowired
     private FriendService friendService;
 
+    @Autowired
+    private FriendRepository friendRepository;
+
 //    @Test
-    public void userSearchingTest(){
+    public void friendAddRequest(){
+
+        User myCode = User.builder()
+                .code(2L)
+                .build();
+
+        User code = User.builder()
+                .code(1L)
+                .build();
+
+        Map<String, Object> map = new HashMap<>();
+
+        int rowCount = friendRepository.friendAdd(myCode, code);
+
+
+        if(rowCount == 0){
+            map.put("result", "NO!!!!!!!");
+        }else{
+            map.put("result", "OK!!!!");
+        }
+
+        System.out.println(map);
 
 
     }

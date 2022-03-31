@@ -10,7 +10,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -32,7 +35,6 @@ public class FriendServiceImpl implements FriendService {
         data = "%"+data+"%";
 
         List<User> searchUser_ID = userRepository.userSearching(data);
-        System.out.println(searchUser_ID.size());
 
         if(searchUser_ID.size() != 0){
 
@@ -56,4 +58,32 @@ public class FriendServiceImpl implements FriendService {
             }).collect(Collectors.toList());
         }
     }
+
+    @Override
+    public Map<String, Object> friendAdd(long code, Long code1) {
+
+        User myCode = User.builder()
+                .code(code)
+                .build();
+
+        User responseCode = User.builder()
+                .code(code1)
+                .build();
+
+        int result = friendRepository.friendAdd(myCode, responseCode);
+
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("result","friend request sending!!!");
+
+        if(result != 0){
+            map.put("result", "friend request send succes!!!");
+        }else{
+            map.put("result", "friend request send fail");
+        }
+
+        return map;
+    }
+
+
 }

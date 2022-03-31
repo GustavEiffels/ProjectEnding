@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -25,24 +26,21 @@ public class FriendController {
     private final FriendService friendService;
 
 
-    @PostMapping("/friendAdd")
-    public @ResponseBody List<UserDTO> getUserInfo(@RequestBody HashMap<String, Object> data, Model model){
-
-//        System.out.println(data);
-//
-//        System.out.println(data.get("data"));
-
-//        String dataParsing = (String)data.get("data");
+    @PostMapping("/friendSearch")
+    public @ResponseBody List<UserDTO> getUserInfo(@RequestBody HashMap<String, Object> data){
 
         List<UserDTO> userInfo = friendService.userSearching(data.get("data").toString());
 
-
-//        System.out.println("send data searching result : " + userInfo);
-
-//        model.addAttribute("userInfo", userInfo);
-
         return userInfo;
 
+    }
+
+    @PostMapping("/friendAdd")
+    public @ResponseBody Map<String, Object> friendAdd(@RequestBody HashMap<String, Long> code, HttpSession session){
+        System.out.println("friend code : " + code.get("code"));
+        System.out.println("code datatype : " + code.get("code").getClass().getName());
+
+        return friendService.friendAdd( (long)session.getAttribute("code"), code.get("code"));
     }
 
 

@@ -186,8 +186,8 @@
         $(document).on("click", "#friend-modal", function (){
                 $('.friendModal').modal('show');
 
-                $(".closeBtn").off('click').on("click", function () {
-                    // $(".form-control").text("");
+                $(".closeBtn").on("click", function () {
+                    $("#search-reset").empty();
                     // $(".ajax-data-loading  > tr > th").empty();
                     $('.friendModal').modal('hide');
                 });
@@ -196,10 +196,10 @@
             // event keword : property-change, change, keyup, paste, input
             $(".form-control").on("keyup", function () {
                 var data = {"data" : $('input[name="Search"]').val() };
-                $(".remove-attribute").remove();
+
                 if ($("input[name='Search']").val() != "") {
                     $.ajax({
-                        url: '/calendar/member/friendAdd',
+                        url: '/calendar/member/friendSearch',
                         type: "POST",
                         data: JSON.stringify(data),
                         contentType: "application/json; charset=utf-8",
@@ -210,34 +210,47 @@
                         success: function (data) {
                             var str = "";
                             console.log("result of Registering: ", data);
-                            // var json = JSON.parse(JSON.stringify(data));
                             var json = JSON.parse(data);
-                            // console.log("json : ", json);
-                            // console.log("json.nick : ", json[0].nick);
-                            // 이 코드만 첫음에 정상적으로 nick 가져옴
-                            // console.log("json[1].nick : ", json[1].nick);
-
-                            // var data_stringify = JSON.stringify(data);
-                            // console.log("data : ", data);
-                            // console.log("data.nick : ", data.nick);
-                            // console.log("data[0].nick : ", data[0].nick);
-
-
 
                             if(json != ""){
+                                $(".remove-attribute").remove();
                                 for(key in json){
-                                    str += "<tr class='remove-attribute'>"+"<th scope='col'>"+json[key].nick+"</th>"+"<th>"+ "<input type='radio' name='checkNICK' value='json[key].code'>" +"</th>" +"</tr>";
+                                    str += "<tr class='remove-attribute'>"+"<th scope='col'>"+json[key].nick+"</th>"+"<th>"+ "<input type='radio' name='checkNICK' value='" + json[key].code +"'>" +"</th>" +"</tr>";
+
                                 }
                                 $(".ajax-data-loading").after(str);
 
                             }
 
+
+
+
                             $(".addBtn").on("click", function(){
+                                var code = document.getElementsByName('checkNICK');
 
-
+                                code.forEach((node) => {
+                                    if (node.checked){
+                                        code = {"code" : $('input[name="checkNICK"]:checked').val() };
+                                        // console.log("code : ", code);
+                                    }
+                                })
+                                $.ajax({
+                                    url: '/calendar/member/friendAdd',
+                                    type: 'POST',
+                                    data: JSON.stringify(code),
+                                    contentType: 'application/json; charset=utf-8',
+                                    dataType: "Text",
+                                    error: function(){
+                                        console.log("data send fail : ", this);
+                                        alert("friend request fail!!!!!");
+                                    },
+                                    success: function(){
+                                        alert("friend request succcess!!!");
+                                    }
+                                })
+                                // 정확한 ID or NICK 입력 시 code를 제대로 가져오지만, 포함한 NICK 에서 선택하게되면 code 값이 계속 1 --> 도대체 1은 어디서 나온 값일까
+                                // console.log("user code : ", code);
                             })
-
-
                         }
                     });
 

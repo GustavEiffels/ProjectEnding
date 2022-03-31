@@ -5,21 +5,43 @@ import com.make.plan.dto.UserDTO;
 import com.make.plan.entity.Friend;
 import com.make.plan.entity.User;
 
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface FriendService {
 
     default Friend DtoToEntity(UserDTO userDTO, FriendDTO friendDTO){
-        User user = User.builder().code(userDTO.getCode()).build();
-        User response_user = User.builder().code(friendDTO.getResponse_u()).build();
-        Friend friend = Friend.builder().fno(friendDTO.getFno()).request_u(user).response_u(response_user).status(friendDTO.getStatus()).build();
+
+        User user = User.builder().
+                code(userDTO.getCode())
+                .build();
+
+        User response_user = User.builder().
+                code(friendDTO.getResponse_u())
+                .build();
+
+        Friend friend = Friend.builder().
+                fno(friendDTO.getFno()).
+                request_u(user).
+                response_u(response_user).
+                status(friendDTO.getStatus())
+                .build();
         return friend;
     }
 
     default FriendDTO EntityToDto(User user,Friend friend){
         Object object = friend.getResponse_u();
         long object1 = (long) object;
-        FriendDTO friendDTO = FriendDTO.builder().fno(friend.getFno()).request_u(user.getCode()).response_u(object1).status(friend.getStatus()).modDate(friend.getModDate()).regDate(friend.getRegDate()).build();
+        FriendDTO friendDTO = FriendDTO.builder().
+                fno(friend.getFno()).
+                request_u(user.getCode()).
+                response_u(object1).
+                status(friend.getStatus()).
+                modDate(friend.getModDate()).
+                regDate(friend.getRegDate())
+                .build();
 
         return friendDTO;
     }
@@ -27,5 +49,5 @@ public interface FriendService {
     List<UserDTO> userSearching(String data);
 
 
-
+    Map<String, Object> friendAdd(long code, Long code1);
 }
