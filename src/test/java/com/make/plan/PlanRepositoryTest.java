@@ -1,6 +1,6 @@
 package com.make.plan;
 
-import com.make.plan.dto.CalendarDTO;
+import com.make.plan.dto.UserDTO;
 import com.make.plan.entity.Plan;
 
 import com.make.plan.entity.User;
@@ -19,7 +19,6 @@ import javax.transaction.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @SpringBootTest
@@ -161,6 +160,48 @@ public class PlanRepositoryTest {
 
     }
 
+
+    @Test
+    @Transactional
+    public void friendRequestList(){
+
+        List<String> friendRequest = friendRepository.requestFriendAdd(1L);
+
+        List<Map<String, Object>> result = friendRepository.requestFriendAddMapType(1L);
+//        System.out.println(friendRequest.stream().map(friend -> friendService.EntityToDto(friend)).collect(Collectors.toList()));
+//        System.out.println(friendRequest.toString());
+//        System.out.println(friendRequest.get(0));
+//        System.out.println(friendRequest.get(0));
+//        System.out.println(friendRequest.get(1));
+
+        System.out.println(result.get(0).keySet());
+//        System.out.println(result.get(0).get("status"));
+    }
+
+//    @Test
+    public void friendList(){
+
+        List<Map<String, Object>> friendInfo = friendService.friendList(2L);
+        System.out.println(friendInfo.get(0).keySet());
+
+
+    }
+
+    @Test
+    public void friendInfoUpdateTest(){
+
+        User myCode = User.builder()
+                .code(2L)
+                .build();
+
+        User friendCode = User.builder()
+                .code(4L)
+                .build();
+
+        int result = friendRepository.friendInfoUpdate(myCode, "수락", friendCode);
+        System.out.println(result);
+
+    }
 
 
 

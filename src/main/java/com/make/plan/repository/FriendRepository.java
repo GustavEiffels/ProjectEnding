@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Map;
 
 public interface FriendRepository extends JpaRepository<Friend, Long> {
 
@@ -20,20 +21,24 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
     @Query(value = "insert into Friend (request, response) values (:myCode, :code)", nativeQuery = true)
     int friendAdd(User myCode, User code);
 
-//    // 친구 요청 승인, 거절
-//    // response_u 의 값은 session에서 user의 code를 찾아와서 대입
-//    // Friend Entity에서 request_u, response_u 를 User 클래스의 형태로 받았기에 값을 넘길 때 도 User 클래스 형태로 넘겨야 함
-//    @Query(value = "update Friend set status = :status where request_u = :request_u and response_u = :session")
-//    @Modifying
-//    @Transactional
-//    public void requestAccept(String status, HttpSession session, User response_u);
-//
-//    // 친구 목록
-//    @Query(value = "select u.nick from User u inner join Friend f on f.response = u.code where f.response = :response and f.status = '수락'", nativeQuery = true)
-//    public List<String> friendList(Long response);
-//
-//    @Query(value = "select u.nick from Friend f inner join User u on f.response = u.code where f.response = :response and f.status = '대기' ", nativeQuery = true)
-//    public List<String> requestFriendAdd(Long response);
+    // 친구 요청 승인, 거절
+    // response_u 의 값은 session에서 user의 code를 찾아와서 대입
+    @Query(value = "update Friend set status = :status where request_u = :friendCode and response_u = :myCode")
+    @Modifying
+    @Transactional
+    int friendInfoUpdate(User myCode, String status , User friendCode);
+
+    // 친구 목록
+    @Query(value = "select (select u.code from User u where u.code = f.request) as code, (select u.nick from User u where u.code = f.request) as nickname, f.status from User u inner join Friend f on f.response = u.code where f.response = :response and f.status = '수락'", nativeQuery = true)
+    List<Map<String, Object>> friendList(Long response);
+
+    // 유저한테 친구 추가 요청 들어온 목록
+    @Query(value = "select f.status, u.nick, f.regdate from Friend f inner join User u on f.response = u.code where f.response = :response and f.status = '대기' ", nativeQuery = true)
+    List<String> requestFriendAdd(Long response);
+
+    // 유저한테 친구 추가 요청 들어온 목록
+    @Query(value = "select (select u.code from User u where u.code = f.request) as code, f.status, (select u.nick from user u where u.code = f.request) as nickname, f.regdate from Friend f inner join User u on f.response = u.code where f.response = :response and f.status = '대기' ", nativeQuery = true)
+    List<Map<String, Object>> requestFriendAddMapType(Long response);
 
 
 

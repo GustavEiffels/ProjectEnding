@@ -116,8 +116,8 @@
                     </button>
                     <div class="collapse" id="friend-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="#" class="link-dark rounded" id="friend-modal">friend list</a></li>
-                            <li><a href="#" class="link-dark rounded">add friend</a></li>
+                            <li><a href="#" class="link-dark rounded" id="friend-modal">friend Search</a></li>
+                            <li><a href="/member" class="link-dark rounded" id="friendlist-modal">친구목록</a></li>
                         </ul>
                     </div>
 
@@ -192,6 +192,8 @@
                     $('.friendModal').modal('hide');
                 });
 
+
+
             // modal 창에서 입력 받은 값들에 변화가 생길 때 마다 데이터를 전송
             // event keword : property-change, change, keyup, paste, input
             $(".form-control").on("keyup", function () {
@@ -199,7 +201,7 @@
 
                 if ($("input[name='Search']").val() != "") {
                     $.ajax({
-                        url: '/calendar/member/friendSearch',
+                        url: '/member/friendSearch',
                         type: "POST",
                         data: JSON.stringify(data),
                         contentType: "application/json; charset=utf-8",
@@ -225,29 +227,46 @@
 
 
 
+
+
                             $(".addBtn").on("click", function(){
                                 var code = document.getElementsByName('checkNICK');
 
                                 code.forEach((node) => {
                                     if (node.checked){
-                                        code = {"code" : $('input[name="checkNICK"]:checked').val() };
-                                        // console.log("code : ", code);
+                                        // code = {"code" : $('input[name="checkNICK"]:checked').val() };
+                                        code = $('input[name="checkNICK"]:checked').val();
                                     }
                                 })
-                                $.ajax({
-                                    url: '/calendar/member/friendAdd',
-                                    type: 'POST',
-                                    data: JSON.stringify(code),
-                                    contentType: 'application/json; charset=utf-8',
-                                    dataType: "Text",
-                                    error: function(){
-                                        console.log("data send fail : ", this);
-                                        alert("friend request fail!!!!!");
-                                    },
-                                    success: function(){
-                                        alert("friend request succcess!!!");
-                                    }
-                                })
+
+                                var duplicateStop = false;
+
+                                if(duplicateStop){
+                                    return false;
+                                }else {
+                                    duplicateStop = true;
+                                    $.ajax({
+                                        url: '/member/friendAdd',
+                                        type: 'POST',
+                                        data: JSON.stringify({
+                                            "request_u" : 0,
+                                            "response_u" : code
+                                        }),
+                                        async: false,
+                                        contentType: 'application/json; charset=utf-8',
+                                        error: function(){
+                                            alert("friend request fail!!!!!");
+                                        },
+                                        success: function(){
+                                            alert("friend request succcess!!!");
+                                        }
+                                    });
+                                    duplicateStop = true;
+                                }
+
+
+
+
                                 // 정확한 ID or NICK 입력 시 code를 제대로 가져오지만, 포함한 NICK 에서 선택하게되면 code 값이 계속 1 --> 도대체 1은 어디서 나온 값일까
                                 // console.log("user code : ", code);
                             })

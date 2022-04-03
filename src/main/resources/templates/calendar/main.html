@@ -151,63 +151,6 @@
                     }
                 })
             });
-            // $('.next').on('click', function () {
-            //     // calendar.next();
-            //     console.log(calendar.getDate());
-            //     let dateObj = calendar.getDate();
-            //     displayedDate = dateObj;
-            //     console.log(displayedDate);
-            //     $('#displayedDate').text(getTitle(dateObj));
-            //
-            //     $.ajax({
-            //         url: '/calendar/getlist/' + displayedDate.getFullYear() + '/' + displayedDate.getMonth(),
-            //         type: "GET",
-            //         error: function (result) {
-            //             console.log("fail: ", result)
-            //         },
-            //         success: function (result) {
-            //             console.log("result:" + result);
-            //             for (var i in result) {
-            //                 calendar.addEvent(result[i]);
-            //             }
-            //
-            //         }
-            //     })
-            // });
-            // $('.today').on('click', function () {
-            //     // calendar.today();
-            //     console.log(calendar.getDate());
-            //     let dateObj = calendar.getDate();
-            //     displayedDate = dateObj;
-            //     console.log(displayedDate);
-            //     $('#displayedDate').text(getTitle(dateObj));
-            // });
-            // $('.gotoDate').on('click', function() {
-            //     var gotoDate = $('input[name="gotoDate"]');
-            //     console.log("type: ", typeof(gotoDate.val()));//
-            //     gotoDate = gotoDate.val();
-            //     gotoDate = new Date(gotoDate);
-            //     console.log("type: ", typeof(gotoDate));//
-            //     calendar.gotoDate(gotoDate);
-            //     $('#displayedDate').text(getTitle(gotoDate));
-            //
-            //     $.ajax({
-            //         url: '/calendar/getlist/' + displayedDate.getFullYear() + '/' + displayedDate.getMonth(),
-            //         type: "GET",
-            //         error: function (result) {
-            //             console.log("fail: ", result)
-            //         },
-            //         success: function (result) {
-            //             console.log("result:" + result);
-            //             for (var i in result) {
-            //                 calendar.addEvent(result[i]);
-            //             }
-            //
-            //         }
-            //     })
-            // });
-
-
 
             $.getJSON("/calendar/list",function (arr) {
                 for (var i in arr) {

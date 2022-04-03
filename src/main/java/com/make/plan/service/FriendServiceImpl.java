@@ -1,7 +1,9 @@
 package com.make.plan.service;
 
 
+import com.make.plan.dto.FriendDTO;
 import com.make.plan.dto.UserDTO;
+import com.make.plan.entity.Friend;
 import com.make.plan.entity.User;
 import com.make.plan.repository.FriendRepository;
 import com.make.plan.repository.UserRepository;
@@ -83,6 +85,56 @@ public class FriendServiceImpl implements FriendService {
         }
 
         return map;
+    }
+
+    @Override
+    public void autoFriendAdd(FriendDTO friendDTO) {
+        Friend friend = DtoToEntity(friendDTO);
+        friendRepository.save(friend);
+    }
+
+    @Override
+    public List<Map<String, Object>> friendList(long code) {
+        List<Map<String, Object>> friendList = friendRepository.friendList(code);
+
+        return friendList;
+    }
+
+    @Override
+    public List<String> friendRequestList(long code) {
+        List<String> friendRequest = friendRepository.requestFriendAdd(code);
+        return friendRequest;
+    }
+
+    @Override
+    public List<Map<String, Object>> friendRequestListMapType(long code) {
+
+        List<Map<String, Object>> result = friendRepository.requestFriendAddMapType(code);
+
+        return result;
+    }
+
+    @Override
+    public void friendInfoUpdate(long code, String statusUp, Long response) {
+
+        User myCode = User.builder()
+                .code(code)
+                .build();
+
+        User friendCode = User.builder()
+                .code(response)
+                .build();
+
+
+        int result = friendRepository.friendInfoUpdate(myCode, statusUp, friendCode);
+
+        if(result != 0){
+            log.info("friend Status Info update OK!!!");
+        }else{
+            log.info("friend Status Info update failed......");
+        }
+
+
     }
 
 

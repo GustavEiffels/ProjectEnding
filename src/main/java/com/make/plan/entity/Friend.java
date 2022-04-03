@@ -6,6 +6,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
+@ToString
 @Entity
 @Builder
 @AllArgsConstructor
@@ -13,7 +14,6 @@ import javax.persistence.*;
 @Getter
 @DynamicInsert
 @DynamicUpdate
-@ToString(exclude = {"request_u", "response_u"})
 public class Friend extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +29,7 @@ public class Friend extends BaseEntity{
 
     @Column(nullable = false, columnDefinition = "varchar(4)  default '대기'")
     private String status;
+
 
 
 }

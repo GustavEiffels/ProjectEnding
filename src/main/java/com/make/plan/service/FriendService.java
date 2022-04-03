@@ -5,17 +5,15 @@ import com.make.plan.dto.UserDTO;
 import com.make.plan.entity.Friend;
 import com.make.plan.entity.User;
 
-import javax.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public interface FriendService {
 
-    default Friend DtoToEntity(UserDTO userDTO, FriendDTO friendDTO){
+    default Friend DtoToEntity(FriendDTO friendDTO){
 
         User user = User.builder().
-                code(userDTO.getCode())
+                code(friendDTO.getRequest_u())
                 .build();
 
         User response_user = User.builder().
@@ -31,13 +29,31 @@ public interface FriendService {
         return friend;
     }
 
-    default FriendDTO EntityToDto(User user,Friend friend){
-        Object object = friend.getResponse_u();
-        long object1 = (long) object;
+    default FriendDTO EntityToDto(Friend friend){
+
+        Object request_u = friend.getRequest_u();
+
+        Long request = (Long)request_u;
+
+        Object response_u = friend.getResponse_u();
+
+        Long response = (Long)response_u;
+
+//        User user = User.builder()
+//                .code((long)friend.getRequest_u())
+//                .build();
+//
+//        UserDTO userDTO = UserDTO.builder()
+//                .code()
+//                .build();
+
+
+
+
         FriendDTO friendDTO = FriendDTO.builder().
                 fno(friend.getFno()).
-                request_u(user.getCode()).
-                response_u(object1).
+                request_u(request).
+                response_u(response).
                 status(friend.getStatus()).
                 modDate(friend.getModDate()).
                 regDate(friend.getRegDate())
@@ -48,6 +64,15 @@ public interface FriendService {
 
     List<UserDTO> userSearching(String data);
 
-
     Map<String, Object> friendAdd(long code, Long code1);
+
+    void autoFriendAdd(FriendDTO friendDTO);
+
+    List<Map<String, Object>> friendList(long code);
+
+    List<String> friendRequestList(long code);
+
+    List<Map<String, Object>> friendRequestListMapType(long code);
+
+    void friendInfoUpdate(long code, String statusUp, Long response);
 }
