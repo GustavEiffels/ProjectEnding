@@ -59,7 +59,9 @@
                 <tr th:each="result : ${friendList}">
                     <th>[[${result.nickname}]]</th>
                     <th>[[${result.status}]]</th>
-                    <th scope="col"><button name="friend-delete" value="delete">friend delete</button></th>
+                    <th scope="col">
+                        <button class="status" th:value="'delete' + ${result.code}">friend delete</button>
+                    </th>
                 </tr>
                 </tbody>
 
@@ -109,10 +111,12 @@
                 // 값은 나오지만 태그가 전체 나와버림
                 // var test = document.querySelector('#status-updateCode').valueOf();
 
-                var testid = $('th[class="status-updateCode"]').val();
+                // var testid = $('th[class="status-updateCode"]').val();
 
                 $('.status').on('click',function(){
                     var status = $(this).val();
+
+                    console.log('data : ', status);
 
 
                     $.ajax({
@@ -128,6 +132,7 @@
                         },
                         success: function(){
                             alert("friend request succcess!!!");
+                            location.reload();
                         }
                     })
 

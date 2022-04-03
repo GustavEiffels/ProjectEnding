@@ -96,7 +96,7 @@ public class FriendController {
     }*/
 
     @PostMapping("/update")
-    public void friendInfoUpdate(@RequestBody HashMap<String, Object> status, HttpSession session, Model model){
+    public @ResponseBody void friendInfoUpdate(@RequestBody HashMap<String, Object> status, HttpSession session, Model model){
 
         String statusData = status.get("status").toString().substring(0, status.get("status").toString().length()-1);
         String code = status.get("status").toString().substring(status.get("status").toString().length()-1);
@@ -107,12 +107,14 @@ public class FriendController {
 
         if(statusData.equals("accept")){
             statusUp = "수락";
-            
         }else if(statusData.equals("refuse")){
             statusUp = "거절";
+        }else if(statusData.equals("delete")){
+            statusUp = "삭제";
         }
 
         friendService.friendInfoUpdate((long)session.getAttribute("code"), statusUp, response);
+
     }
 
 
