@@ -35,6 +35,7 @@ public class FriendController {
     public @ResponseBody List<UserDTO> getUserInfo(@RequestBody HashMap<String, Object> data){
 
         List<UserDTO> userInfo = friendService.userSearching(data.get("data").toString());
+        System.out.println(userInfo);
 
         return userInfo;
 
@@ -95,7 +96,7 @@ public class FriendController {
     }*/
 
     @PostMapping("/update")
-    public @ResponseBody String friendInfoUpdate(@RequestBody HashMap<String, Object> status, HttpSession session, Model model){
+    public void friendInfoUpdate(@RequestBody HashMap<String, Object> status, HttpSession session, Model model){
 
         String statusData = status.get("status").toString().substring(0, status.get("status").toString().length()-1);
         String code = status.get("status").toString().substring(status.get("status").toString().length()-1);
@@ -112,9 +113,6 @@ public class FriendController {
         }
 
         friendService.friendInfoUpdate((long)session.getAttribute("code"), statusUp, response);
-
-        return "member/list";
-
     }
 
 

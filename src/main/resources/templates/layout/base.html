@@ -210,9 +210,11 @@
                             console.log("data send fail : ", data);
                         },
                         success: function (data) {
+
                             var str = "";
                             console.log("result of Registering: ", data);
                             var json = JSON.parse(data);
+                            // console.log("data : ", json);
 
                             if(json != ""){
                                 $(".remove-attribute").remove();
@@ -223,62 +225,42 @@
                                 $(".ajax-data-loading").after(str);
 
                             }
-
-
-
-
-
-
-                            $(".addBtn").on("click", function(){
-                                var code = document.getElementsByName('checkNICK');
-
-                                code.forEach((node) => {
-                                    if (node.checked){
-                                        // code = {"code" : $('input[name="checkNICK"]:checked').val() };
-                                        code = $('input[name="checkNICK"]:checked').val();
-                                    }
-                                })
-
-                                var duplicateStop = false;
-
-                                if(duplicateStop){
-                                    return false;
-                                }else {
-                                    duplicateStop = true;
-                                    $.ajax({
-                                        url: '/member/friendAdd',
-                                        type: 'POST',
-                                        data: JSON.stringify({
-                                            "request_u" : 0,
-                                            "response_u" : code
-                                        }),
-                                        async: false,
-                                        contentType: 'application/json; charset=utf-8',
-                                        error: function(){
-                                            alert("friend request fail!!!!!");
-                                        },
-                                        success: function(){
-                                            alert("friend request succcess!!!");
-                                        }
-                                    });
-                                    duplicateStop = true;
-                                }
-
-
-
-
-                                // 정확한 ID or NICK 입력 시 code를 제대로 가져오지만, 포함한 NICK 에서 선택하게되면 code 값이 계속 1 --> 도대체 1은 어디서 나온 값일까
-                                // console.log("user code : ", code);
-                            })
                         }
                     });
-
-
                 } else if(data == null) {
                     alert("검색 할 유저의 ID 나 NickName을 입력 해 주세요 ")
                 }
 
             });
+
+            $(".addBtn").on("click", function(){
+                var code = document.getElementsByName('checkNICK');
+
+                code.forEach((node) => {
+                    if (node.checked){
+                        // code = {"code" : $('input[name="checkNICK"]:checked').val() };
+                        code = $('input[name="checkNICK"]:checked').val();
+                    }
+                })
+
+                $.ajax({
+                    url: '/member/friendAdd',
+                    type: 'POST',
+                    data: JSON.stringify({
+                        "request_u" : 0,
+                        "response_u" : code
+                    }),
+                    async: false,
+                    contentType: 'application/json; charset=utf-8',
+                    error: function(){
+                        alert("friend request fail!!!!!");
+                    },
+                    success: function(){
+                        alert("friend request succcess!!!");
+                    }
+                });
+
+            })
 
 
 
