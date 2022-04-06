@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!--layout 파일을 설정-->
+<th:block th:replace="~{/layout/base :: setContent(~{this::content} )}">
+    <!--layout 에 출력할 내용-->
+    <th:block th:fragment="content">
+
+        <h1>FullCalendar CRUD</h1>
+        <span th:text="${session.nick}"></span>님 안녕하세요!<br>
+
+        <link href='/css/main.css' rel='stylesheet'/>
+        <script src='/js/main.js'></script>
+        <style>
+            /* 이 프로젝트에선 reboot.scss 라는 파일이 없는데, 그것때문에 알 수 없는 서식이 설정되어 아래의 코드를 추가! 없앨 수 없으려나? */
+            a {
+                color: gray;
+                text-decoration: none;
+            }
+
+            FullCalendar {
+                margin: 40px 10px;
+                padding: 0;
+                font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+                font-size: 14px;
+            }
+        </style>
+
+        <table style="width: 100%">
+            <tr>
+                <td style="width: 30%">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary prev">prev</button>
+                        <button type="button" class="btn btn-secondary next">next</button>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary today">today</button>
+                    </div>
+                </td>
+                <td>
+                    <h3 id="displayedDate" class="justify-content-center"></h3>
+                </td>
+                <td th:align="right" style="width: 40%">
+                    <div class="input-group">
+                        <input type="date" class="form-control" name="gotoDate">
+                        <button type="button" class="btn btn-secondary gotoDate">go to Date</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <FullCalendar>
+            <div id='calendar'></div>
+        </FullCalendar>
+
+        <!-- 일정 등록을 위한 모달 창 -->
+        <div class="planModal modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"></h5>
+                    </div>
+                    <div class="modal-body">
+                        <!-- title 입력 -->
+                        <div class="form-group mb-3">
+                            <label>Title</label>
+                            <input type="text" class="form-control" name="title" placeholder="Enter 'Title' here...">
+                        </div>
+                        <!-- description 입력 -->
+                        <div class="form-group mb-3">
+                            <label>Description</label>
+                            <textarea class="form-control" rows="5" id="description"
+                                      placeholder="Enter 'Description' here..."></textarea>
+                        </div>
+                        <!-- location 입력 -->
+                        <div class="form-group mb-3">
+                            <label>Location</label>
+                            <input type="text" class="form-control" name="location"
+                                   placeholder="Enter 'Location' here...">
+                        </div>
+                        <!-- Priority 입력 -->
+                        <div class="form-group mb-3">
+                            <label>Priority<span class="priority"></span></label>
+                            <div class='starrr'></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary planSaveBtn">Save</button>
+                        <button type="button" class="btn btn-warning modifyBtn">Modify</button>
+                        <button type="button" class="btn btn-danger removeBtn">Delete</button>
+                        <button type="button" class="btn btn-secondary closeBtn">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script th:src="@{/js/starrr.js}"></script>
+        <link th:href="@{/css/starrr.css}" rel="stylesheet">
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+
+        <script>
+
+            function getTitle(dateObj) {
+                const monthNameLong = dateObj.toLocaleString("en-US", { month: "long" });
+                var year = dateObj.getFullYear().toString();
+                return monthNameLong + " " + year;
+            }
+            $('.prev, .next, .today, .gotoDate').on('click', function () {
+
+                var $this = $(this);
+
+                if($this.hasClass('prev')){
+                    calendar.prev();
+                    console.log("Click prev");
+                    console.log($this);
+                } else if($this.hasClass('next')){
+                    calendar.next();
+                    console.log("Click next");
+                    console.log($this);
+                }else if($this.hasClass('today')){
+                    calendar.today();
+                    console.log("Click today");
+                    console.log($this);
+                }else if($this.hasClass('gotoDate')){
+                    var gotoDate = $('input[name="gotoDate"]').val();
+                    // console.log("gotoDate 출력 : " + gotoDate)
+                    gotoDate = new Date(gotoDate);
+                    // console.log("gotoDate를 Date 로 변경 후 출력 : " + gotoDate)
+                    calendar.gotoDate(gotoDate);
+                }
+
+                // console.log(calendar.getDate());
+                let dateObj = calendar.getDate();
+                displayedDate = dateObj;
+                // console.log(displayedDate);
+                // calendar title
+                $('#displayedDate').text(getTitle(dateObj));
+
+                $.ajax({
+                    url: '/calendar/getlist/' + displayedDate.getFullYear() + '/' + displayedDate.getMonth(),
+                    type: "GET",
+                    error: function (result) {
+                        console.log("fail: ", result)
+                    },
+                    success: function (result) {
+                        console.log("result:" + result);
+                        for (var i in result) {
+                            calendar.addEvent(result[i]);
+                        }
+
+                    }
+                })
+            });
+
+            $.getJSON("/calendar/list",function (arr) {
+                for (var i in arr) {
+                    calendar.addEvent(arr[i]);
+                }
+            });
+            let today = new Date();
+            let planModal = $(".planModal");
+            let inputTitle = $('input[name="title"]');
+            let displayedDate = '';
+            let inputDescription = $('textarea[id="description"]');
+            let inputLocation = $('input[name="location"]');
+            var priority = 1;
+            $('.starrr').starrr({
+                rating: priority,
+                change: function (e, value) {
+                    if (value) {
+                        priority = value;
+                    }
+                }
+            });
+
+            function timeToString(date) {
+                var yyyy = date.getFullYear().toString();
+                var MM = pad(date.getMonth() + 1, 2);
+                var dd = pad(date.getDate(), 2);
+                var hh = pad(date.getHours(), 2);
+                var mm = pad(date.getMinutes(), 2);
+                return yyyy + "-" + MM + "-" + dd + "T" + hh + ":" + mm;
+            }
+
+            function pad(number, length) {
+                var str = '' + number;
+                while (str.length < length) {
+                    str = '0' + str
+                }
+                return str;
+            }
+
+
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
+                    start: '',
+                    center: '',
+                    end: ''
+                },
+                initialDate: today,
+                navLinks: true, // can click day/week names to navigate views
+                selectable: true,
+                selectMirror: true,
+                select: function (arg) {
+                    console.log("arg when select: ", arg)
+                    $('.modal-title').text("Register Plan");//documentation 에 추가!!
+                    inputTitle.val("");
+                    inputDescription.val("");
+                    inputLocation.val("");
+                    $(".removeBtn, .modifyBtn").hide();
+                    $(".planSaveBtn").show();
+                    $('.planModal').modal('show');
+
+                    $(".planSaveBtn").off('click').on("click", function () {
+                        var data = {
+                            title: inputTitle.val(),
+                            description: inputDescription.val(),
+                            location: inputLocation.val(),
+                            priority: priority,
+                            allDay: arg.allDay,
+                            start: timeToString(arg.start),
+                            end: timeToString(arg.end)
+                        };
+                        console.log("data_save: ", data)
+                        if (data.title) {
+                            $.ajax({
+                                url: '/calendar/register',
+                                type: "POST",
+                                data: JSON.stringify(data),
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "text",
+                                error: function (result) {
+                                    console.log("fail: ", result);
+                                },
+                                success: function (result) {
+                                    console.log("result of Registering: ", result);
+                                    calendar.addEvent(JSON.parse(result));
+                                },
+                            });
+                            planModal.modal('hide');
+                        } else {
+                            alert("Title 에 내용을 입력 하여 주세요.")
+                        }
+                    });
+
+                    $(".closeBtn").off('click').on("click", function () {
+                        planModal.modal('hide');
+                    });
+
+                    calendar.unselect()
+                },
+                eventClick: function (arg) {
+                    console.log('arg:', arg)//
+                    $('.modal-title').text("Alter Plan");//documentation!
+                    inputTitle.val(arg.event.title);
+                    inputDescription.val(arg.event.extendedProps.description);
+                    inputLocation.val(arg.event.extendedProps.location);
+                    priority = arg.event.extendedProps.priority;
+                    console.log("priority: ", priority);//
+                    $(".starrr").starrr({
+                        rating: priority
+                    });
+                    $(".planSaveBtn").hide();
+                    $(".removeBtn, .modifyBtn").show();
+                    $('.planModal').modal('show');
+
+                    $('.modifyBtn').off('click').on("click", function () {
+                        let end = timeToString(arg.event.start);
+                        if (arg.event.end != null) {
+                            end = timeToString(arg.event.end);
+                        }
+                        var data = {
+                            id: arg.event.id,
+                            title: inputTitle.val(),
+                            description: inputDescription.val(),
+                            location: inputLocation.val(),
+                            priority: priority,
+                            allDay: arg.event.allDay,
+                            start: timeToString(arg.event.start),
+                            end: end
+                        };
+                        console.log("data_modify", data);//
+                        if (data.title) {
+                            $.ajax({
+                                url: '/calendar/modify',
+                                type: 'PUT',
+                                data: JSON.stringify(data),
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "text",
+                                error: function (result) {
+                                    console.log("fail: ", result);
+                                },
+                                success: function (result) {
+                                    console.log(result);
+                                    arg.event.remove();
+                                    calendar.addEvent(JSON.parse(result));
+                                }
+                            });
+                            planModal.modal('hide');
+                        } else {
+                            alert("Title 에 내용을 입력 하여 주세요.")
+                        }
+
+                    });
+
+                    $(".removeBtn").off('click').on("click", function () {
+                        if (confirm('Are you sure you want to delete this event?')) {
+                            $.ajax({
+                                url: '/calendar/remove/' + arg.event.id,
+                                type: "DELETE",
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "text",
+                                error: function (result) {
+                                    console.log("fail: ", result)
+                                },
+                                success: function (result) {
+                                    console.log("result:" + result);
+                                    arg.event.remove();
+                                }
+                            })
+                        }
+                        planModal.modal('hide');
+                    });
+
+                    $(".closeBtn").off('click').on("click", function () {
+                        planModal.modal('hide');
+                    });
+
+                },
+                editable: true,
+                dayMaxEvents: true, // allow "more" link when too many events
+            });
+            let dateObj = calendar.getDate();
+            $('#displayedDate').text(getTitle(dateObj));
+            calendar.render();
+
+        </script>
+
+    </th:block>
+</th:block>
+

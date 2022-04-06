@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Find My Info</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-9 col-lg-7">
+                <div class="login-wrap p-4 p-md-6">
+                    <div class="d-flex">
+                        <h3 class="mb-4">UnSubscribe</h3>
+                    </div>
+                    <div>
+                        <span class="mb-4" >You can still restore the previously used account. Would you like to restore it?</span></br>
+                        <span class="mb-4" >If you want, please change to New Password !</span>
+                    </div>
+                    </br>
+                    <form th:action="@{/edit/unSub/canceling}" method="post" >
+
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">Password</span>
+                            <input class="form-control" name="pw"  placeholder="Want to change" >
+                        </div>
+                        <div>
+                            <span style="color: red" th:text="${valid_pw}"></span>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">Password Check</span>
+                            <input class="form-control" name="pwCheck" placeholder="Want to change">
+                        </div>
+                        <div>
+                            <span style="color: red" th:text="${errorMessage}"></span>
+                        </div>
+                        <br/>
+                        <div>
+                            <button class="btn btn-primary rounded btn-authentication" type="submit">
+                                Change!!
+                            </button>
+                        </div>
+                        <br/>
+
+
+                    </form>
+
+                    <button class="btn btn-primary rounded btn-authentication" type="button"
+                            onclick="location.href='/'">Go Back
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/popper.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+
+</body>
+</html>

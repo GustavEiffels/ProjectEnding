@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to our PLANNER</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-9 col-lg-7">
+                <div class="login-wrap p-4 p-md-6">
+                    <div class="d-flex">
+                        <h3 class="mb-4">Edit My Info</h3>
+                    </div>
+                    <form th:action="@{/edit/editing}" method="post" >
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3" > Email </span>
+                            <span class="form-control-plaintext input-group-text col-10" th:text="${session.email}" ></span>
+                        </div>
+                        </br>
+
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3" > ID </span>
+                            <span class="form-control-plaintext input-group-text col-10" th:text="${session.id}" ></span>
+                        </div>
+                        </br>
+
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3" > Nick Name </span>
+                            <span class="form-control-plaintext input-group-text col-3" th:text="${session.nick}" ></span>
+                            <input class="form-control" name="nick" placeholder="Want to change nick!">
+                        </div>
+                        <div>
+                            <span style="color: red" th:text="${nickErrorMessage}"></span>
+                            <span style="color: red" th:text="${nickValidError}"></span>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">Password</span>
+                            <input class="form-control" name="pw"  placeholder="Want to change" >
+                        </div>
+                        <div>
+                            <span style="color: red" th:text="${pwValidError}"></span>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">Password Check</span>
+                            <input class="form-control" name="pwCheck" placeholder="Want to change">
+                        </div>
+                        <div>
+                            <span style="color: red" th:text="${pwErrorMessage}"></span>
+                        </div>
+                        </br>
+                        </br>
+                        <span class="mb-2">if you change, try it</span>
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">Gender</span>
+                            <span class="form-control-plaintext input-group-text col-3" th:text="${session.gender}" ></span>
+                            <input class="form-control custom-radio" type="radio" name="gender" value="m"/> Male
+                            <input class="form-control custom-radio" type="radio" name="gender" value="f"/> Female
+                        </div>
+                        </br>
+                        </br>
+                        <span class="mb-2">if you change, try it</span>
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">Birthday</span>
+                            <span class="form-control-plaintext input-group-text col-3" th:text="${session.birthday}" ></span>
+                            <input type="date" class="form-control" name="birthday">
+                        </div>
+                        </br>
+                        </br>
+                        <span class="mb-2">if you change, try it</span>
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">개인질문</span>
+                            <span class="form-control-plaintext input-group-text col-3" th:text="${session.context}" ></span>
+                            <select class="form-control" name="context" id="context">
+                                <option value="1" selected>처음 키운 애완동물의 이름은?</option>
+                                <option value="2">태어난 동네의 이름은?</option>
+                                <option value="3">가장 좋아하는 과일은?</option>
+                            </select>
+                        </div>
+                        <span class="mb-2">if you change, try it</span>
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">답!</span>
+                            <span class="form-control-plaintext input-group-text col-3" th:text="${session.answer}" ></span>
+                            <input class="form-control" name="answer">
+                        </div>
+                        <div>
+                            <span style="color: red" th:text="${answerValidError}"></span>
+                            <span style="color: red" th:text="${errorMessage}"></span>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary rounded submit" style="width:100%;height:60px;">Finish</button>
+                        </div>
+
+                    </form>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary rounded submit" style="width:100%;height:60px;"
+                                onclick="location.href='/edit/'">Back Page</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/popper.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+
+</body>
+</html>

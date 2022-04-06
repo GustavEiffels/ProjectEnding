@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- layout 파일을 설정 -->
+<th:block th:replace="~{/layout/base :: setContent(~{this::content} )}">
+    <!-- layout 에 출력할 내용 -->
+    <th:block th:fragment="content">
+
+        <style>
+            ul.tabs{
+                margin: 0px;
+                padding: 0px;
+                list-style: none;
+            }
+            ul.tabs li{
+                background: none;
+                color: #222;
+                display: inline-block;
+                padding: 10px 15px;
+                cursor: pointer;
+            }
+
+            ul.tabs li.current{
+                background: #ededed;
+                color: #222;
+            }
+
+            .tab-content{
+                display: none;
+                background: #ededed;
+                padding: 15px;
+            }
+
+            .tab-content.current{
+                display: inherit;
+            }
+        </style>
+
+        <h1 class="mt-4">Friend Page</h1>
+
+
+        <ul class="tabs">
+            <li class="tablist current" data-tab="tab-1">Friend List</li>
+            <li class="tablist" data-tab="tab-2">Friend request status</li>
+        </ul>
+
+        <div id="tab-1" class="tab-content current">
+            <!-- 데이터 목록 출력 -->
+            <table class="table table-striped">
+                <!-- 출력하는 열의 제목 -->
+                <thead>
+                <tr>
+                    <th scope="col">friend NICK</th>
+                    <th scope="col">now status</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="result : ${friendList}">
+                    <th>[[${result.nickname}]]</th>
+                    <th>[[${result.status}]]</th>
+                    <th scope="col">
+                        <button class="status" th:value="'delete' + ${result.code}">friend delete</button>
+                    </th>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+        <div id="tab-2" class="tab-content">
+            <!-- 데이터 목록 출력 -->
+            <table class="table table-striped">
+                <!-- 출력하는 열의 제목 -->
+                <thead>
+                <tr>
+                    <th scope="col">friend status</th>
+                    <th scope="col">request User Nick</th>
+                    <th scope="col">Add date</th>
+                    <th scope="col">Accept & Refuse</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="result : ${friendRequestInfo}">
+                    <th>[[${result.status}]]</th>
+                    <th>[[${result.nickname}]]</th>
+                    <th>[[${result.regdate}]]</th>
+                    <th>
+                        <button th:value="'accept' + ${result.code}"  class="status">Accept</button>
+                        <button th:value="'refuse' + ${result.code}" class="status">Refuse</button>
+                    </th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <script>
+            $(document).ready(function(){
+                $('ul.tabs li').click(function(){
+                    currentTab = $(this).attr('data-tab');
+
+                    $('ul.tabs li').removeClass('current');
+                    $('.tab-content').removeClass('current');
+
+                    $(this).addClass('current');
+                    $("#"+currentTab).addClass('current');
+
+                })
+
+                // var changeCode = $('.status').parent('#status-updateCode').val();
+                // 값은 나오지만 태그가 전체 나와버림
+                // var test = document.querySelector('#status-updateCode').valueOf();
+
+                // var testid = $('th[class="status-updateCode"]').val();
+
+                $('.status').on('click',function(){
+                    var status = $(this).val();
+
+                    console.log('data : ', status);
+
+
+                    $.ajax({
+                        url: '/member/update',
+                        type: 'POST',
+                        data: JSON.stringify({
+                            "status" : status
+                        }),
+                        contentType: 'application/json; charset=utf-8',
+                        error: function(){
+                            console.log("data send fail : ", this.data);
+                            alert("friend request fail!!!!!");
+                        },
+                        success: function(){
+                            alert("friend request succcess!!!");
+                            location.reload();
+                        }
+                    })
+
+                })
+
+
+
+
+            })
+
+        </script>
+
+
+
+
+
+    </th:block>
+</th:block>

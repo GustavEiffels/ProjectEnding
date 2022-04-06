@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/style.css">
+
+<th:block th:fragment="setContent(content)">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+        <meta name="generator" content="Hugo 0.88.1">
+        <title>Spring Boot jQuery & Ajax CRUD</title>
+
+        <!-- Bootstrap & jQuery Setting -->
+        <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sidebars/">
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/css/sidebars.css" rel="stylesheet">
+        <script src="/js/bootstrap.bundle.min.js"></script>
+        <script src="/js/sidebars.js"></script>
+        <script src='/js/jquery.min.js'></script>
+
+        <style>
+            .bd-placeholder-img {
+                font-size: 1.125rem;
+                text-anchor: middle;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                user-select: none;
+            }
+
+            @media (min-width: 768px) {
+                .bd-placeholder-img-lg {
+                    font-size: 3.5rem;
+                }
+            }
+        </style>
+
+    </head>
+    <body>
+
+    <main>
+
+        <div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
+            <a href="/calendar/main" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+                <img src="/img/ourr.jpg"/></img>
+                <span class="fs-5 fw-semibold">&nbsp;PLANNER</span>
+            </a>
+            <ul class="list-unstyled ps-0">
+                <li class="mb-1">
+                    <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+                            data-bs-target="#home-collapse" aria-expanded="true">
+                        Home
+                    </button>
+                    <div class="collapse show" id="home-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="#" class="link-dark rounded">Overview</a></li>
+                            <li><a href="#" class="link-dark rounded">Updates</a></li>
+                            <li><a href="#" class="link-dark rounded">Reports</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="mb-1">
+                    <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+                            data-bs-target="#dashboard-collapse" aria-expanded="false">
+                        Plans
+                    </button>
+                    <div class="collapse" id="dashboard-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="#" onclick="calendar.changeView('dayGridMonth');" class="link-dark rounded">Monthly</a></li>
+                            <li><a href="#" onclick="calendar.changeView('timeGridWeek');" class="link-dark rounded">Weekly</a></li>
+                            <li><a href="#" onclick="calendar.changeView('timeGridDay');" class="link-dark rounded">Daily</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="mb-1">
+                    <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+                            data-bs-target="#orders-collapse" aria-expanded="false">
+                        Orders
+                    </button>
+                    <div class="collapse" id="orders-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="#" class="link-dark rounded">New</a></li>
+                            <li><a href="#" class="link-dark rounded">Processed</a></li>
+                            <li><a href="#" class="link-dark rounded">Shipped</a></li>
+                            <li><a href="#" class="link-dark rounded">Returned</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="border-top my-3"></li>
+                <li class="mb-1">
+                    <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+                            data-bs-target="#account-collapse" aria-expanded="false">
+                        Account
+                    </button>
+                    <div class="collapse" id="account-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="#" class="link-dark rounded">New...</a></li>
+                            <li><a href="#" class="link-dark rounded">Profile</a></li>
+                            <li><a href="/edit" class="link-dark rounded">Modify My Info</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <form th:action="@{/member/logout}" method="post">
+                            <div class="input-group mb-2">
+                                <button class="btn btn-primary rounded submit" type="submit">SignOut</button>
+                            </div>
+                        </form>
+                    </div>
+                    <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+                            data-bs-target="#friend-collapse" aria-expanded="false">
+                        Friend
+                    </button>
+                    <div class="collapse" id="friend-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="#" class="link-dark rounded" id="friend-modal">friend Search</a></li>
+                            <li><a href="/member" class="link-dark rounded" id="friendlist-modal">친구목록</a></li>
+                        </ul>
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <!-- 친구 등록을 위한 검색 모달 창 / ajax 방식 -->
+        <div class="friendModal modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"></h5>
+                    </div>
+                    <div class="modal-body">
+                        <!-- 유저 검색 -->
+                        <div class="form-group mb-3" >
+                            <label>Search</label>
+                            <!--  -->
+                            <input type="text" id="search-reset" class="form-control" name="Search" placeholder="Enter 'User Id or NickName'">
+<!--                            <button type="button" class="btn btn-secondary searchBtn">Search</button>-->
+                        </div>
+<!--                        <form action="/calendar/member/friendAdd" method="post" id="searchForm">-->
+<!--                            <label>Search</label>-->
+<!--                            &lt;!&ndash;  &ndash;&gt;-->
+<!--                            <input type="text" class="form-control" name="search" placeholder="Enter 'User Id or NickName'">-->
+<!--                            <input type="submit" th:value="Search">-->
+<!--                        </form>-->
+                        <div class="form-group mb-3" >
+                            <table class="table table-striped" border="1">
+                                <thead>
+                                <tr>
+                                    <th scope="col">User Nick</th>
+                                    <th scope="col">select</th>
+                                </tr>
+                                </thead>
+                                <tbody class="ajax-data-loading">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary addBtn">Add</button>
+                        <button type="button" class="btn btn-secondary closeBtn">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script th:src="@{/js/starrr.js}"></script>
+        <link th:href="@{/css/starrr.css}" rel="stylesheet">
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+
+
+
+        <div class="b-example-divider"></div>
+
+        <div class="container-xl">
+            <th:block th:replace="${content}"></th:block>
+        </div>
+
+    </main>
+
+    <script>
+        $(document).on("click", "#friend-modal", function (){
+                $('.friendModal').modal('show');
+
+                $(".closeBtn").on("click", function () {
+                    $("#search-reset").empty();
+                    // $(".ajax-data-loading  > tr > th").empty();
+                    $('.friendModal').modal('hide');
+                });
+
+
+
+            // modal 창에서 입력 받은 값들에 변화가 생길 때 마다 데이터를 전송
+            // event keword : property-change, change, keyup, paste, input
+            $(".form-control").on("keyup", function () {
+                var data = {"data" : $('input[name="Search"]').val() };
+
+                if ($("input[name='Search']").val() != "") {
+                    $.ajax({
+                        url: '/member/friendSearch',
+                        type: "POST",
+                        data: JSON.stringify(data),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "text",
+                        error: function (data) {
+                            console.log("data send fail : ", data);
+                        },
+                        success: function (data) {
+
+                            var str = "";
+                            console.log("result of Registering: ", data);
+                            var json = JSON.parse(data);
+                            // console.log("data : ", json);
+
+                            if(json != ""){
+                                $(".remove-attribute").remove();
+                                for(key in json){
+                                    str += "<tr class='remove-attribute'>"+"<th scope='col'>"+json[key].nick+"</th>"+"<th>"+ "<input type='radio' name='checkNICK' value='" + json[key].code +"'>" +"</th>" +"</tr>";
+
+                                }
+                                $(".ajax-data-loading").after(str);
+
+                            }
+                        }
+                    });
+                } else if(data == null) {
+                    alert("검색 할 유저의 ID 나 NickName을 입력 해 주세요 ")
+                }
+
+            });
+
+            $(".addBtn").on("click", function(){
+                var code = document.getElementsByName('checkNICK');
+
+                code.forEach((node) => {
+                    if (node.checked){
+                        // code = {"code" : $('input[name="checkNICK"]:checked').val() };
+                        code = $('input[name="checkNICK"]:checked').val();
+                    }
+                })
+
+                $.ajax({
+                    url: '/member/friendAdd',
+                    type: 'POST',
+                    data: JSON.stringify({
+                        "request_u" : 0,
+                        "response_u" : code
+                    }),
+                    async: false,
+                    contentType: 'application/json; charset=utf-8',
+                    error: function(){
+                        alert("friend request fail!!!!!");
+                    },
+                    success: function(){
+                        alert("friend request succcess!!!");
+                    }
+                });
+
+            })
+
+
+
+        })
+
+    </script>
+
+
+
+    </body>
+</th:block>
+</html>

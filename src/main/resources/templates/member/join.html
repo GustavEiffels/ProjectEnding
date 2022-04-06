@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to our PLANNER</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+<section class="ftco-section">
+    <div class="container">
+<!--        <div class="row justify-content-center">-->
+<!--            <div class="col-md-6 text-center mb-5">-->
+<!--                <h2 class="heading-section">회원 가입</h2>-->
+<!--            </div>-->
+<!--        </div>-->
+        <div class="row justify-content-center">
+            <div class="col-md-9 col-lg-7">
+                <div class="login-wrap p-4 p-md-6">
+                    <div class="d-flex">
+                        <h3 class="mb-4">Join In</h3>
+                    </div>
+                    <form th:action="@{/member/join/joining}" method="post" >
+                        <div class="input-group mb-3">
+                            <span class="mb-4"></span>
+                            <span class="form-control-plaintext input-group-text col-3">email</span>
+                            <input class="form-control" name="email" placeholder="Please Insert your Email">
+<!--                            <button class="btn btn-primary rounded btn-authentication" type="button">인증받기</button>-->
+                        </div>
+                        <span style="color: red" th:text="${valid_email}"></span>
+                        <span style="color: red" th:text="${emailMessage}"></span>
+                        </br>
+                        </br>
+
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">ID</span>
+                            <input class="form-control" name="id" style="text-align: left" placeholder="6 to 11 characters including numbers and English">
+                        </div>
+                        <span style="color: red" th:text="${valid_id}"></span>
+                        <span style="color: red" th:text="${idMessage}"></span>
+                        </br>
+                        </br>
+
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">별명</span>
+                            <input class="form-control" name="nick"  placeholder="2-20 characters in Korean, English, numbers">
+                        </div>
+                        <div>
+                            <span style="color: red"  th:text="${valid_nick}"></span>
+                            <span style="color: red" th:text="${nickMessage}"></span>
+                        </div>
+                        </br>
+                        </br>
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">Password</span>
+                            <input class="form-control" name="pw" style="text-align:left" placeholder="8~16 upper, lowercase letters, special characters">
+                        </div>
+                        <div>
+                            <span style="color: red" th:text="${valid_pw}"></span>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">Check PW</span>
+                            <input class="form-control" name="pwCheck">
+                        </div>
+                        <div>
+                            <span style="color: red" th:text="${pwMessage}"></span>
+                        </div>
+                        </br>
+                        </br>
+                        <span class="mb-4">Please Choose Your Gender</span>
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">Gender</span>
+                            <input class="form-control" type="radio" name="gender" value="m"/> Male
+                            <input class="form-control" type="radio" name="gender" value="f"/> Female
+                        </div>
+                        <div>
+                        </div>
+                        </br>
+                        </br>
+                        <span class="mb-4">Please Choose Your BirthDay</span>
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">Birthday</span>
+                            <input type="date" class="form-control" name="birthday">
+                        </div>
+                        <div>
+                            <span style="color: red" th:text="${valid_birthday}"></span>
+                        </div>
+                        </br>
+                        </br>
+                        <span class="mb-4">Please select our Question</span>
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">개인질문</span>
+                            <select class="form-control" name="context" id="context">
+                                <option value="1" selected>처음 키운 애완동물의 이름은?</option>
+                                <option value="2">태어난 동네의 이름은?</option>
+                                <option value="3">가장 좋아하는 과일은?</option>
+                            </select>
+                        </div>
+                        <div>
+                            <span style="color: red" th:text="${valid_context}"></span>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="form-control-plaintext input-group-text col-3">답!</span>
+                            <input class="form-control" name="answer">
+                        </div>
+                        <div>
+                            <span style="color: red" th:text="${valid_answer}"></span>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary rounded submit" style="width:100%;height:60px;">회원가입하기</button>
+                        </div>
+
+                    </form>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary rounded submit" style="width:100%;height:60px;"
+                                onclick="location.href='/'">main 화면으로 </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/popper.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+
+</body>
+</html>
