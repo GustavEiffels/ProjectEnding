@@ -34,6 +34,7 @@
             .tab-content.current{
                 display: inherit;
             }
+
         </style>
 
         <h1 class="mt-4">Friend Page</h1>
@@ -55,8 +56,8 @@
                     <th scope="col">Delete</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr th:each="result : ${friendList}">
+                <tbody class="wrap">
+                <tr th:each="result : ${friendList}" >
                     <th>[[${result.nickname}]]</th>
                     <th>[[${result.status}]]</th>
                     <th scope="col">
@@ -64,7 +65,6 @@
                     </th>
                 </tr>
                 </tbody>
-
             </table>
         </div>
 
@@ -80,7 +80,7 @@
                     <th scope="col">Accept & Refuse</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody class="wrap">
                 <tr th:each="result : ${friendRequestInfo}">
                     <th>[[${result.status}]]</th>
                     <th>[[${result.nickname}]]</th>
@@ -94,7 +94,7 @@
             </table>
         </div>
 
-        <script>
+        <script type="text/javascript" th:inline="javascript">
             $(document).ready(function(){
                 $('ul.tabs li').click(function(){
                     currentTab = $(this).attr('data-tab');
@@ -105,7 +105,7 @@
                     $(this).addClass('current');
                     $("#"+currentTab).addClass('current');
 
-                })
+                });
 
                 // var changeCode = $('.status').parent('#status-updateCode').val();
                 // 값은 나오지만 태그가 전체 나와버림
@@ -134,14 +134,81 @@
                             alert("friend request succcess!!!");
                             location.reload();
                         }
-                    })
+                    });
 
-                })
+                });
+
+                // var lastScrollTop = 0;
+                //
+                // $(window).scroll(function(){
+                //
+                //     var currentScrollTop = $(window).scrollTop();
+                //
+                //     if(currentScrollTop - lastScrollTop > 0){
+                //         lastScrollTop = currentScrollTop;
+                //     }else {
+                //         lastScrollTop = currentScrollTop;
+                //     }
+                //
+                //     console.log('scroll : ', lastScrollTop);
+                //
+                //
+                // })
+
+                // // scroll 이벤트 구현 파트
+                var win = $(window);
+                var doc = $(document);
+
+                // Each time the user scrolls
+                win.scroll(function() {
+                    // Vertical end reached?
+                    if (doc.height() - win.height() == win.scrollTop()) {
+                        // New row
+                        var tr = $('<tr />').append($('<th />')).appendTo($('#spreadsheet'));
+
+                        // Current number of columns to create
+                        var n_cols = $('#spreadsheet tr:first-child th').length;
+                        for (var i = 0; i < n_cols; ++i)
+                            tr.append($('<td />'));
+                    }
+
+                    // Horizontal end reached?
+                    if (doc.width() - win.width() == win.scrollLeft()) {
+                        // New column in the heading row
+                        $('#spreadsheet tr:first-child').append($('<th />'));
+
+                        // New column in each row
+                        $('#spreadsheet tr:not(:first-child)').each(function() {
+                            $(this).append($('<td />'));
+                        });
+                    }
+                });
+
+            });
+
+            let currentPage = 1;
+
+            let isLoading = false;
+
+            $(window).on('scroll', function(){
+
+                let scrollTop = $(window).scrollTop();
+
+                let windowHeight = $(window).height();
+
+                let dcoumentHeight = $(document).height();
+
+                let isBottom = scrollTop+windowHeight + 10 >= dcoumentHeight;
+
+                console.log('scroll : ', isBottom);
 
 
 
 
-            })
+
+            });
+
+
 
         </script>
 
