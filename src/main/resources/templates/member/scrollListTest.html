@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- layout 파일을 설정 -->
+<th:block th:replace="~{/layout/base :: setContent(~{this::content} )}">
+    <!-- layout 에 출력할 내용 -->
+    <th:block th:fragment="content">
+
+        <style>
+            ul.tabs{
+                margin: 0px;
+                padding: 0px;
+                list-style: none;
+            }
+            ul.tabs li{
+                background: none;
+                color: #222;
+                display: inline-block;
+                padding: 10px 15px;
+                cursor: pointer;
+            }
+
+            ul.tabs li.current{
+                background: #ededed;
+                color: #222;
+            }
+
+            .tab-content{
+                display: none;
+                background: #ededed;
+                padding: 15px;
+            }
+
+            .tab-content.current{
+                display: inherit;
+            }
+
+        </style>
+
+        <h1 class="mt-4">Friend Page</h1>
+
+
+        <ul class="tabs">
+            <li class="tablist current" data-tab="tab-1">Friend List</li>
+            <li class="tablist" data-tab="tab-2">Friend request status</li>
+        </ul>
+
+        <div id="tab-1" class="tab-content current">
+            <!-- 데이터 목록 출력 -->
+            <table>
+                <!-- 출력하는 열의 제목 -->
+                <thead>
+                <tr>
+                    <th scope="col">friend NICK</th>
+                    <th scope="col">now status</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                </thead>
+                <tbody class="wrap">
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr><tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr><tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+                <tr >
+                    <th>1</th>
+                    <th>2</th>
+                    <th scope="col">
+                        <button class="status">friend delete</button>
+                    </th>
+                </tr>
+
+
+
+                </tbody>
+            </table>
+        </div>
+
+        <div id="tab-2" class="tab-content">
+            <!-- 데이터 목록 출력 -->
+            <table>
+                <!-- 출력하는 열의 제목 -->
+                <thead>
+                <tr>
+                    <th scope="col">friend status</th>
+                    <th scope="col">request User Nick</th>
+                    <th scope="col">Add date</th>
+                    <th scope="col">Accept & Refuse</th>
+                </tr>
+                </thead>
+                <tbody class="wrap">
+                <tr>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>
+                        <button class="status">Accept</button>
+                        <button class="status">Refuse</button>
+                    </th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <script type="text/javascript" th:inline="javascript">
+            $(document).ready(function(){
+                $('ul.tabs li').click(function(){
+                    currentTab = $(this).attr('data-tab');
+
+                    $('ul.tabs li').removeClass('current');
+                    $('.tab-content').removeClass('current');
+
+                    $(this).addClass('current');
+                    $("#"+currentTab).addClass('current');
+
+                });
+
+                // table의 class를 지정하지 않았을 때도 스크롤 안됨
+                // codepen에서 작성시 스크롤 동작
+                // table에 해당하는 css 어딘가에서 문제
+                //codepen 에서 스크롤 자동 생성 및 생성 시 div 이벤트 에러 발생
+                // bootstrap style 문제는 아님 FullCalendar CSS의 문제 예측
+
+
+
+
+
+            });
+
+
+
+
+
+
+        </script>
+
+
+
+
+
+    </th:block>
+</th:block>
