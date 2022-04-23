@@ -23,7 +23,7 @@ public class LoginController {
     private LoginService loginService;
 
 
-    @PostMapping("/member/login")
+    @PostMapping("/main")
     public String login(String account,
                         @Valid PasswordDTO dto,
                         Errors errors,

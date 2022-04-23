@@ -5,7 +5,7 @@ import com.make.plan.dto.QuestionDTO;
 import com.make.plan.dto.UserDTO;
 import com.make.plan.service.forCustomer.answer.AnswerService;
 import com.make.plan.service.forCustomer.question.QuestionService;
-import com.make.plan.service.forCustomer.find.user.UserService;
+import com.make.plan.service.forCustomer.user.UserService;
 import com.make.plan.service.forCustomer.validationHandling.ValidateHandling;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

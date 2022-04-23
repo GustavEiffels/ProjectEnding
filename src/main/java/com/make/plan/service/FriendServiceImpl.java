@@ -7,16 +7,14 @@ import com.make.plan.entity.Friend;
 import com.make.plan.entity.User;
 import com.make.plan.repository.FriendRepository;
 import com.make.plan.repository.UserRepository;
-import com.make.plan.service.forCustomer.find.user.UserService;
+import com.make.plan.service.forCustomer.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 

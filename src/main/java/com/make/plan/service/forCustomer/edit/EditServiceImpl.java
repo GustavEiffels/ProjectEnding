@@ -361,7 +361,7 @@ public class EditServiceImpl implements EditService{
 
         if(gender==null)
         {
-            gender=(String)session.getAttribute("userGender");
+            gender=(String)session.getAttribute("gender");
             if(gender.equals("Male"))
             {
                 gender = "m";
@@ -377,7 +377,7 @@ public class EditServiceImpl implements EditService{
         // ------------------------------------ birthday 가 유효한지
         if(birthday.isEmpty())
         {
-            LocalDate getBirthday= (LocalDate) session.getAttribute("userBirthday");
+            LocalDate getBirthday= (LocalDate) session.getAttribute("birthday");
             birthday = String.valueOf(getBirthday);
         }
         // ------------------------------------ birthday 가 유효한지
@@ -386,7 +386,7 @@ public class EditServiceImpl implements EditService{
         // ------------------------------------ answer 가 null 인지 아닌지
         if(answer.isEmpty())
         {
-            answer = (String) session.getAttribute("userAnswer");
+            answer = (String) session.getAttribute("answer");
         }
 
         else
@@ -403,7 +403,7 @@ public class EditServiceImpl implements EditService{
         // ------------------------------------ 질문이 null 인지 아닌지
         if(context.isEmpty())
         {
-            context = (String)session.getAttribute("userContext");
+            context = (String)session.getAttribute("context");
 
             /** 질문 변경이 없다 ---> 현재 질문에 유지
              *
@@ -419,15 +419,15 @@ public class EditServiceImpl implements EditService{
              * Answer 의 값이 null 이라면 error
              *
              * */
-            if((!context.equals((String)session.getAttribute("userContext")))&&answer==null)
+            if((!context.equals((String)session.getAttribute("context")))&&answer==null)
             {
                 result.put("errorMessage", "If you want to change a question, please enter an answer to the question");
                 isValid=false;
             }
 
-            if((context.equals((String)session.getAttribute("userContext")))&&answer==null)
+            if((context.equals((String)session.getAttribute("context")))&&answer==null)
             {
-                answer = (String) session.getAttribute("userAnswer");
+                answer = (String) session.getAttribute("answer");
             }
         }
         // ------------------------------------ 질문이 null 인지 아닌지

@@ -1,4 +1,4 @@
-package com.make.plan.service.forCustomer.find.user;
+package com.make.plan.service.forCustomer.user;
 
 
 import com.make.plan.dto.UserDTO;
