@@ -137,5 +137,11 @@ public class FriendServiceImpl implements FriendService {
 
     }
 
+    @Override
+    public List<Map<String, Object>> friendListScroll(long code) {
+        List<Map<String, Object>> result = friendRepository.friendListScroll(code);
+        return result;
+    }
+
 
 }

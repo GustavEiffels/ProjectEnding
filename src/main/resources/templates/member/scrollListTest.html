@@ -34,6 +34,11 @@
             .tab-content.current{
                 display: inherit;
             }
+            div{
+                all:unset;
+                position: relative;
+                overflow-y: scroll;
+            }
 
         </style>
 
@@ -47,7 +52,7 @@
 
         <div id="tab-1" class="tab-content current">
             <!-- 데이터 목록 출력 -->
-            <table>
+            <table class="table table-striped">
                 <!-- 출력하는 열의 제목 -->
                 <thead>
                 <tr>
@@ -57,308 +62,20 @@
                 </tr>
                 </thead>
                 <tbody class="wrap">
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
+                <tr th:each="result : ${friendList}" >
+                    <th>[[${result.nickname}]]</th>
+                    <th>[[${result.status}]]</th>
                     <th scope="col">
-                        <button class="status">friend delete</button>
+                        <button class="status" th:value="'delete' + ${result.code}">friend delete</button>
                     </th>
                 </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr><tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr><tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-                <tr >
-                    <th>1</th>
-                    <th>2</th>
-                    <th scope="col">
-                        <button class="status">friend delete</button>
-                    </th>
-                </tr>
-
-
-
                 </tbody>
             </table>
         </div>
 
         <div id="tab-2" class="tab-content">
             <!-- 데이터 목록 출력 -->
-            <table>
+            <table class="table table-striped">
                 <!-- 출력하는 열의 제목 -->
                 <thead>
                 <tr>
@@ -395,17 +112,27 @@
 
                 });
 
-                // table의 class를 지정하지 않았을 때도 스크롤 안됨
-                // codepen에서 작성시 스크롤 동작
-                // table에 해당하는 css 어딘가에서 문제
-                //codepen 에서 스크롤 자동 생성 및 생성 시 div 이벤트 에러 발생
-                // bootstrap style 문제는 아님 FullCalendar CSS의 문제 예측
+                const documentHeight = document.documentElement;
 
+                documentHeight.addEventListener('scroll', function () {
+                    // if ((document.innerHeight + document.scrollY) >= document.body.offsetHeight - 2) {
+                    //     console.log(document.documentElement.clientHeight);
+                    //
+                    // }
+                    console.log('clientHeight : ',document.documentElement.clientHeight);
+                    console.log('scrollHeight : ',document.documentElement.scrollHeight);
+                    console.log('offsetHeight : ',document.documentElement.offsetHeight);
 
+                })
 
 
 
             });
+
+
+
+
+
 
 
 

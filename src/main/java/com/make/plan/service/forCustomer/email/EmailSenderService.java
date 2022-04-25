@@ -11,9 +11,9 @@ import java.util.Properties;
 @Service
 public class EmailSenderService {
     public void sendMail(String title, String sendTo, String content) throws MessagingException {
-        final String user = "";
-        final String password = "";
-        final String sender ="";
+        final String user = "tjrgoehdsla@naver.com";
+        final String password = "suk381547";
+        final String sender ="tjrgoehdsla@naver.com";
         String smtpMailLocate = "smtp.naver.com";
 
         Properties prop = new Properties();

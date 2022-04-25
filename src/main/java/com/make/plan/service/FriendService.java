@@ -75,4 +75,6 @@ public interface FriendService {
     List<Map<String, Object>> friendRequestListMapType(long code);
 
     void friendInfoUpdate(long code, String statusUp, Long response);
+
+    List<Map<String, Object>> friendListScroll(long code);
 }

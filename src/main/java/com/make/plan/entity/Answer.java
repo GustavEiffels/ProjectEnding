@@ -19,11 +19,11 @@ public class Answer {
     @Column(nullable = false)
     private String answer;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     @JoinColumn(name = "code")
     private User code;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "qno")
     private Question qno;
 

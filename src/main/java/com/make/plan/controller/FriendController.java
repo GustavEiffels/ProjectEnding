@@ -122,13 +122,13 @@ public class FriendController {
     @RequestMapping(value = "/scrollListTest", method = {RequestMethod.GET,RequestMethod.POST})
     public String scrollListTest(HttpSession session, Model model){
 
-   /*     List<Map<String, Object>> friendList = friendService.friendList((long)session.getAttribute("code"));
+        List<Map<String, Object>> friendListScroll = friendService.friendListScroll((long)session.getAttribute("code"));
 
-        model.addAttribute("friendList", friendList);
+        model.addAttribute("friendList", friendListScroll);
 
         List<Map<String, Object>> result = friendService.friendRequestListMapType((long)session.getAttribute("code"));
 
-        model.addAttribute("friendRequestInfo", result);*/
+        model.addAttribute("friendRequestInfo", result);
 
         return "member/scrollListTest";
     }

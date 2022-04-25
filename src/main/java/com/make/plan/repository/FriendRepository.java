@@ -41,5 +41,14 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
     List<Map<String, Object>> requestFriendAddMapType(Long response);
 
 
+    // 친구 목록 스크롤 스크롤 테스트
+    @Query(value = "select row_number() over (order by f.regdate) as NUM, f.regdate, (select u.code from User u where u.code = f.request) code ,(select u.nick from User u where u.code = f.request) as nickname, f.status\n" +
+            "from User u inner join friend f on f.response = u.code\n" +
+            "where f.response = 2 and f.status = '수락'\n" +
+            "order by NUM desc\n" +
+            "limit 0, 20;", nativeQuery = true)
+    List<Map<String, Object>> friendListScroll(Long response);
+
+
 
 }

@@ -17,6 +17,7 @@ public class ForFindPw {
     private final char[] passwordTableNumber = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
 
     private final char[] passwordTableSpecial ={'`','~','!','@','#','$','%','^','&','*'};
+
     public String excuteGenerate() {
         Random random = new Random(System.currentTimeMillis());
         int tablelengthUpper = passwordTableUpper.length;

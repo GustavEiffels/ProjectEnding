@@ -19,11 +19,11 @@ public class Friend extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long fno;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "request")
     private User request_u;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "response")
     private User response_u;
 

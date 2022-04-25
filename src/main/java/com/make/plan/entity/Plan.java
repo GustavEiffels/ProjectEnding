@@ -28,7 +28,7 @@ public class Plan extends BaseEntity {
     private String borderColor;
     private String textColor;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade= CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY)
     // commit 시점에만 삭제
     @JoinColumn(name = "code")
     private User user;

@@ -35,6 +35,12 @@
                 display: inherit;
             }
 
+            div{
+                all:unset;
+                position: relative;
+                overflow: scroll;
+            }
+
         </style>
 
         <h1 class="mt-4">Friend Page</h1>
@@ -138,7 +144,7 @@
 
                 });
 
-                // var lastScrollTop = 0;
+                // let lastScrollTop = 0;
                 //
                 // $(window).scroll(function(){
                 //
@@ -155,58 +161,63 @@
                 //
                 // })
 
-                // // scroll 이벤트 구현 파트
-                var win = $(window);
-                var doc = $(document);
-
-                // Each time the user scrolls
-                win.scroll(function() {
-                    // Vertical end reached?
-                    if (doc.height() - win.height() == win.scrollTop()) {
-                        // New row
-                        var tr = $('<tr />').append($('<th />')).appendTo($('#spreadsheet'));
-
-                        // Current number of columns to create
-                        var n_cols = $('#spreadsheet tr:first-child th').length;
-                        for (var i = 0; i < n_cols; ++i)
-                            tr.append($('<td />'));
-                    }
-
-                    // Horizontal end reached?
-                    if (doc.width() - win.width() == win.scrollLeft()) {
-                        // New column in the heading row
-                        $('#spreadsheet tr:first-child').append($('<th />'));
-
-                        // New column in each row
-                        $('#spreadsheet tr:not(:first-child)').each(function() {
-                            $(this).append($('<td />'));
-                        });
-                    }
-                });
-
             });
 
-            let currentPage = 1;
+            // let currentPage = 1;
+            //
+            // let isLoading = false;
+            //
+            // $(window).on('scroll', function(){
+            //
+            //     let scrollTop = $(window).scrollTop();
+            //
+            //     let windowHeight = $(window).height();
+            //
+            //     let dcoumentHeight = $(document).height();
+            //
+            //     let isBottom = scrollTop+windowHeight + 10 >= dcoumentHeight;
+            //
+            //     console.log('scroll : ', isBottom);
+            //
+            //
+            //
+            //
+            //
+            // });
 
-            let isLoading = false;
+            const pageSize = 10;
 
-            $(window).on('scroll', function(){
+            const scrollSize = document.documentElement;
 
-                let scrollTop = $(window).scrollTop();
+            function getScrollTop(){
+                return (scrollSize.clientHeight !== undefined) ? scrollSize.clientHeight : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+            };
 
-                let windowHeight = $(window).height();
+            function getDocumentHeight(){
+                const getBody = document.body;
 
-                let dcoumentHeight = $(document).height();
+                const getHtml = document.documentElement;
 
-                let isBottom = scrollTop+windowHeight + 10 >= dcoumentHeight;
+                return Math.max(
+                    getBody.scrollHeight, getBody.offsetHeight,
+                    getHtml.clientHeight, getHtml.scrollHeight, getHtml.offsetHeight
+                );
+            };
 
-                console.log('scroll : ', isBottom);
 
 
+            function getList(){
+                $.ajax({
+                    type: 'Post',
+                    url: '/member/getFriendList',
+                    data: {
 
-
-
-            });
+                    },
+                    dataType: 'json'
+                }).done(function(result){
+                    console.log('json data : ', result);
+                })
+            }
 
 
 
