@@ -161,7 +161,7 @@ public class PlanRepositoryTest {
     }
 
 
-    @Test
+   /* @Test
     @Transactional
     public void friendRequestList(){
 
@@ -176,7 +176,7 @@ public class PlanRepositoryTest {
 
         System.out.println(result.get(0).keySet());
 //        System.out.println(result.get(0).get("status"));
-    }
+    }*/
 
 //    @Test
     public void friendList(){
@@ -187,7 +187,7 @@ public class PlanRepositoryTest {
 
     }
 
-    @Test
+   /* @Test
     public void friendInfoUpdateTest(){
 
         User myCode = User.builder()
@@ -201,7 +201,7 @@ public class PlanRepositoryTest {
         int result = friendRepository.friendInfoUpdate(myCode, "수락", friendCode);
         System.out.println(result);
 
-    }
+    }*/
 
 
 
